@@ -1,0 +1,18 @@
+projects:
+  EllergicAPI:
+    schemaPath: src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        graphQLApiId: 3hc2dqolzzezlevuiywie4didi
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: us-east-2
+        maxDepth: 2
+      endpoints:
+        prod: >-
+          https://tkeqtpi6qbgcnjepl7urjmg2jm.appsync-api.us-east-2.amazonaws.com/graphql

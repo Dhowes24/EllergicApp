@@ -1,0 +1,14 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "ellergicapp-20190423213223-authRole",
+            "UnauthRoleArn": "arn:aws:iam::352843608130:role/ellergicapp-20190423213223-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::352843608130:role/ellergicapp-20190423213223-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "ellergicapp-20190423213223-deployment",
+            "UnauthRoleName": "ellergicapp-20190423213223-unauthRole",
+            "StackName": "ellergicapp-20190423213223",
+            "StackId": "arn:aws:cloudformation:us-east-2:352843608130:stack/ellergicapp-20190423213223/d12691e0-6630-11e9-a71d-02a97d686044"
+        }
+    }
+}

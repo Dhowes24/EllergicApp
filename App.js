@@ -19,11 +19,6 @@ import EditWatchListScreen from './Components/EditWatchlistScreen';
 import EditGroceryListScreen from './Components/EditGroceryListScreen';
 
 // import { withAuthenticator } from 'aws-amplify-react-native'
-//
-// import { Rehydrated } from 'aws-appsync-react';
-// import { ApolloProvider } from 'react-apollo';
-// import aws_exports from './aws-exports'
-// import {AWSAppSyncClient} from "aws-appsync";
 
 
 // class App extends React.Component {
@@ -42,15 +37,18 @@ import EditGroceryListScreen from './Components/EditGroceryListScreen';
 //     );
 //   }
 // }
+import gql from 'graphql-tag';
+import AWSAppSyncClient from 'aws-appsync';
+import aws_config from './aws-exports';
 
-// const client = new AWSAppSyncClient({
-//   url: aws_exports.aws_appsync_graphqlEndpoint,
-//   region: aws_exports.aws_appsync_region,
-//   auth: {
-//     type: aws_exports.aws_appsync_authenticationType,
-//     apiKey: aws_exports.aws_appsync_apiKey,
-//   }
-// });
+const client = new AWSAppSyncClient({
+  url: aws_config.aws_appsync_graphqlEndpoint,
+  region: aws_config.aws_appsync_region,
+  auth: {
+    type: aws_config.aws_appsync_authenticationType,
+    apiKey: aws_config.aws_appsync_apiKey,
+  }
+});
 
 // const WithProvider = () => (
 //     <ApolloProvider client={client}>
