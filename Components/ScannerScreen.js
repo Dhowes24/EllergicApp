@@ -11,7 +11,15 @@ import {
     TouchableOpacity,
 } from "react-native";
 
+import gql from 'graphql-tag';
+
+
+import { API, graphqlOperation } from 'aws-amplify'
+import {getUser} from '../src/graphql/queries'
+
 import {Camera, Permissions, BarCodeScanner} from 'expo';
+import AWSAppSyncClient from "aws-appsync";
+import aws_config from "../aws-exports";
 
 
 
@@ -28,6 +36,14 @@ let ingredientList = [];
 let allerginsList = [];
 
 
+const client = new AWSAppSyncClient({
+    url: aws_config.aws_appsync_graphqlEndpoint,
+    region: aws_config.aws_appsync_region,
+    auth: {
+        type: aws_config.aws_appsync_authenticationType,
+        apiKey: aws_config.aws_appsync_apiKey,
+    }
+});
 
 
 class ScannerScreen extends Component {
@@ -91,7 +107,7 @@ class ScannerScreen extends Component {
                     />}
                 </View>
                 <TouchableOpacity
-                    onPress={() => {this.handleBarCodeScanned()}}>
+                    onPress={() => {this.queryTest()}}>
                     <Image source={require('../assets/MainPageLogo-E-llergic.png')} //Home Logo
                            style={styles.LogoStyle}/>
                 </TouchableOpacity>
@@ -122,7 +138,27 @@ class ScannerScreen extends Component {
                     this.setState({warningNeeded:true, allerginsFound:this.state.allerginsFound.push(allerginsList[a])});
                 }
             }
+        //TODO
         //Function that calls a modal depedending on wether 'warningNeeded' is Positive or False
+    };
+
+    async queryTest(){
+        // try {
+        //     const apiData = await API.graphql(graphqlOperation(getUser, {input:"Dhowes"} ));
+        //     const User = apiData.data.password;
+        //     alert(User.toString())
+        // }
+        await client.hydrated();
+
+        try{ client.query({
+            query: gql(getUser),
+            variables: {username: "Dhowes"}
+        }).then(({ data: { getUser } }) => {
+            console.log(getUser.password);
+        }); }
+        catch (err) {
+            console.log('error: ', err)
+        }
     }
 }
 

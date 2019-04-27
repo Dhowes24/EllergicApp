@@ -4,6 +4,11 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Font } from 'expo';
 import {Root} from "native-base";
 
+import {ApolloProvider} from 'react-apollo';
+import { Rehydrated } from 'aws-appsync-react';
+
+
+
 import LoginScreen from './Components/LoginScreen';
 import ScannerScreen from './Components/ScannerScreen';
 import ListsScreen from './Components/ListsScreen';
@@ -37,9 +42,9 @@ import EditGroceryListScreen from './Components/EditGroceryListScreen';
 //     );
 //   }
 // }
-import gql from 'graphql-tag';
 import AWSAppSyncClient from 'aws-appsync';
 import aws_config from './aws-exports';
+
 
 const client = new AWSAppSyncClient({
   url: aws_config.aws_appsync_graphqlEndpoint,
@@ -50,13 +55,13 @@ const client = new AWSAppSyncClient({
   }
 });
 
-// const WithProvider = () => (
-//     <ApolloProvider client={client}>
-//       <Rehydrated>
-//         <AppContainer />
-//       </Rehydrated>
-//     </ApolloProvider>
-// );
+const WithProvider = () => (
+    <ApolloProvider client={client}>
+      <Rehydrated>
+        <AppContainer />
+      </Rehydrated>
+    </ApolloProvider>
+);
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -104,7 +109,7 @@ const AppNavigator = createStackNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);
 
-export default AppContainer;
+export default WithProvider;
 
 const HomeBackground = StyleSheet.create({
   container: {
