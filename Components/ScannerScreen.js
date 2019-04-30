@@ -139,27 +139,10 @@ class ScannerScreen extends Component {
                 }
             }
         //TODO
-        //Function that calls a modal depedending on wether 'warningNeeded' is Positive or False
+        //Function that calls a modal depending on whether 'warningNeeded' is Positive or False
     };
 
-    async queryTest(){
-        // try {
-        //     const apiData = await API.graphql(graphqlOperation(getUser, {input:"Dhowes"} ));
-        //     const User = apiData.data.password;
-        //     alert(User.toString())
-        // }
-        await client.hydrated();
 
-        try{ client.query({
-            query: gql(getUser),
-            variables: {username: "Dhowes"}
-        }).then(({ data: { getUser } }) => {
-            console.log(getUser.password);
-        }); }
-        catch (err) {
-            console.log('error: ', err)
-        }
-    }
 }
 
 

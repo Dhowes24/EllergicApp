@@ -11,7 +11,23 @@ import {
 } from "react-native";
 
 // import { compose, graphql } from 'react-apollo'
-import  getUser from "./queries/getUser";
+import AWSAppSyncClient from "aws-appsync";
+import aws_config from "../aws-exports";
+import gql from "graphql-tag";
+
+
+import {getUser} from "../src/graphql/queries";
+import {createUser} from "../src/graphql/mutations";
+import {listUsers} from "../src/graphql/queries";
+
+const client = new AWSAppSyncClient({
+    url: aws_config.aws_appsync_graphqlEndpoint,
+    region: aws_config.aws_appsync_region,
+    auth: {
+        type: aws_config.aws_appsync_authenticationType,
+        apiKey: aws_config.aws_appsync_apiKey,
+    }
+});
 
 
 class LoginScreen extends Component {
@@ -21,7 +37,7 @@ class LoginScreen extends Component {
         Login: true,
         Password: '',
         ConfirmPassword: '',
-        Email: '',
+        Username: '',
         modalVisible: false,
     };
 
@@ -30,56 +46,73 @@ class LoginScreen extends Component {
     };
 
 
-    async login() {
-        this.props.navigation.navigate('ScannerScreen')
-        // try {
-        //     const response = await Auth.signIn(this.state.User, this.state.Password);
-        //     this.props.navigation.navigate('ScannerScreen')
-        // } catch (err) {
-        //     console.log(`Error: ${JSON.stringify(err, null, 2)}`);
-        // }
+    async loginOrSignUp() {
+        if(this.state.Username.length==0 || this.state.Password.length==0){
+            //TODO set a state which switches a note
+        }
+
+        else if(!this.state.Login&& this.state.ConfirmPassword.length==0){
+            //TODO set note
+        }
+
+        else {
+            await client.hydrated();
+
+            try {
+
+
+                (async () => {
+
+                    let result = await client.query({
+                        query: gql(getUser),
+                        variables: {
+                            username: this.state.Username
+                        },
+                        fetchPolicy: 'network-only'
+                    });
+                    console.log(result);
+
+                    if (this.state.Login) {
+                        console.log(result.data.getUser);
+                        if (this.state.Password == result.data.getUser.password) {
+                            console.log(result.data.getUser.password);
+                            this.props.navigation.navigate('ScannerScreen')
+                        }
+                        else{
+                            //TODO incorrect password or username
+                        }
+
+                    } else {
+                        if(result=null) {
+                            if (this.state.Password == this.state.ConfirmPassword) {
+                                (async () => {
+                                    const result = await client.mutate({
+                                        mutation: gql(createUser),
+                                        variables: {
+                                            input: {
+                                                username: this.state.Username,
+                                                password: this.state.Password,
+                                            }
+                                        }
+                                    });
+                                    console.log(result);
+                                })();
+                                this.props.navigation.navigate('ScannerScreen')
+                            } else {
+                                //TODO passwords must be the same note
+                            }
+                        } else{
+                            //TODO username in use note
+                        }
+                    }
+                })();
+            } catch (err) {
+                console.log('error: ', err)
+            }
+        }
+
     };
 
-    // handleSignUp = () => {
-    //     // alert(JSON.stringify(this.state));
-    //     const { Email, Password, ConfirmPassword } = this.state;
-    //     // Make sure passwords match
-    //     if (Password === ConfirmPassword) {
-    //         Auth.signUp({
-    //             username: Email,
-    //             password: Password,
-    //             attributes: { Email },
-    //         })
-    //         // On success, show Confirmation Code Modal
-    //             .then(() => this.setState({ modalVisible: true }))
-    //             // On failure, display error in console
-    //             .catch(err => console.log(err));
-    //     } else {
-    //         alert('Passwords do not match.');
-    //     }
-    // };
-
-    // handleSignUp = () => {
-    //     const email = this.state.Email;
-    //
-    //     Auth.signUp({
-    //         username:"d.howes242@gmail.com",
-    //         password:'Password1!',
-    //         attributes:{ email},
-    //     }).catch(err => console.log(err));
-    //     this.handleConfirmationCode()
-    //
-    // };
-    //
-    // handleConfirmationCode = () => {
-    //     const { email, confirmationCode } = this.state;
-    //     Auth.confirmSignUp(email, confirmationCode, {})
-    //         .then(() => {
-    //             this.setState({ modalVisible: false });
-    //             this.props.navigation.navigate('ScannerScreen')
-    //         })
-    //         .catch(err => console.log(err));
-    // };
 
     render(){
         return(
@@ -100,7 +133,7 @@ class LoginScreen extends Component {
             {this.state.Login && <View style={styles.contentLogin}>
                 <TextInput placeholderTextColor={'darkgrey'}
                            placeholder="Username/Email"
-                           onChangeText={(User) => this.setState({User:User})}
+                           onChangeText={(Username) => this.setState({Username:Username})}
                            style={styles.textInputStyle}/>
                 <Image
                 source={require('../assets/greyLoginBar-E-llergic.png')}
@@ -117,7 +150,7 @@ class LoginScreen extends Component {
                     style={styles.greyBarStyle}/>
 
                 <TouchableOpacity
-                    onPress={()=>{this.state.Login ? this.login() : this.signUp()}}
+                    onPress={()=>{this.loginOrSignUp()}}
                     style={styles.buttonBorderLogin}>
 
                 <View>
@@ -132,15 +165,15 @@ class LoginScreen extends Component {
             {/*Sign Up*/}
             {!this.state.Login && <View style={styles.contentSignUp}>
                 <TextInput placeholderTextColor={'darkgrey'}
-                           placeholder="Enter Phone Number"
-                           onChangeText={(Phone) => this.setState({Phone:Phone})}
+                           placeholder="Username"
+                           onChangeText={(Username) => this.setState({Username:Username})}
                            style={styles.textInputStyle}/>
                 <Image
                     source={require('../assets/greyLoginBar-E-llergic.png')}
                     style={styles.greyBarStyle}/>
 
                 <TextInput placeholderTextColor={'darkgrey'}
-                           placeholder="Enter Password"
+                           placeholder="Password"
                            onChangeText={(Password) => this.setState({Password:Password})}
                            secureTextEntry={true}
                            style={styles.textInputStyle}/>
@@ -150,8 +183,8 @@ class LoginScreen extends Component {
                     style={styles.greyBarStyle}/>
 
                 <TextInput placeholderTextColor={'darkgrey'}
-                           placeholder="Enter Username"
-                           onChangeText={(User) => this.setState({User:User})}
+                           placeholder="Confirm Password"
+                           onChangeText={(confirmPassword) => this.setState({ConfirmPassword:confirmPassword})}
                            secureTextEntry={true}
                            style={styles.textInputStyle}/>
 
@@ -159,7 +192,7 @@ class LoginScreen extends Component {
                     source={require('../assets/greyLoginBar-E-llergic.png')}
                     style={styles.greyBarStyle}/>
                 <TouchableOpacity
-                    onPress={()=>{this.state.Login ? this.login() : this.handleSignUp()}}
+                    onPress={()=>{this.loginOrSignUp()}}
                     style={styles.buttonBorderLogin}>
 
                     <View>
