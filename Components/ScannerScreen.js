@@ -107,7 +107,7 @@ class ScannerScreen extends Component {
                     />}
                 </View>
                 <TouchableOpacity
-                    onPress={() => {this.queryTest()}}>
+                    onPress={() => {this.handleBarCodeScanned()}}>
                     <Image source={require('../assets/MainPageLogo-E-llergic.png')} //Home Logo
                            style={styles.LogoStyle}/>
                 </TouchableOpacity>

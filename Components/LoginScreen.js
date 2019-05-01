@@ -83,7 +83,7 @@ class LoginScreen extends Component {
                         }
 
                     } else {
-                        if(result=null) {
+                        if(result.data.getUser==null) {
                             if (this.state.Password == this.state.ConfirmPassword) {
                                 (async () => {
                                     const result = await client.mutate({

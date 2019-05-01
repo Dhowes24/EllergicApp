@@ -12,6 +12,9 @@ import {
     TextInput,
     KeyboardAvoidingView
 } from "react-native";
+import {createWatchList} from "../src/graphql/mutations";
+import gql from "graphql-tag";
+import {getUser} from "../src/graphql/queries";
 
 
 class EditWatchListScreen extends Component {
@@ -21,7 +24,67 @@ class EditWatchListScreen extends Component {
     };
 
     state = {
+        id: null
     };
+
+    //TODO
+    // onComponentWillMount(){
+    //     if(this.props.name!=null){
+    //         CSV parse this.props.list
+    //         setstate list: CSV parsed List
+    //     }
+    //}
+
+    //TODO
+    // done() {
+    //     let listString;
+    //     for (let i = 0; i < list.length; i++) {
+    //         listString = listString + list[i];
+    //     }
+    //     if (this.state.id == null) {
+    //         (async () => {
+    //             const Watchlistresult = await client.query({
+    //                 mutation: gql(createWatchList),
+    //                 variables: {
+    //                     name: this.state.name,
+    //                     list: listString
+    //                 },
+    //                 fetchPolicy: 'network-only'
+    //             });
+    //             (async () => {
+    //                 let Userresult = await client.query({
+    //                     query: gql(getUser),
+    //                     variables: {
+    //                         username: this.state.Username
+    //                     },
+    //                     fetchPolicy: 'network-only'
+    //                 });
+    //                 (async () => {
+    //                     await client.query({
+    //                         query: gql(updateUser),
+    //                         variables: {
+    //                             username: this.state.Username,
+    //                             watchlist: Userresult.watchlist + Watchlistresult.id
+    //                         },
+    //                         fetchPolicy: 'network-only'
+    //                     });
+    //                 })();
+    //             })();
+    //         })();
+    //     } else {
+    //         (async () => {
+    //             await client.query({
+    //                 mutation: gql(updateWatchList),
+    //                 variables: {
+    //                     id: this.state.id,
+    //                     name: this.state.name,
+    //                     list: listString
+    //                 },
+    //                 fetchPolicy: 'network-only'
+    //             });
+    //         })();
+    //     }
+    // }
 
     renderFooter = () => {
         if (!this.state.loading) return null;
@@ -44,7 +107,9 @@ class EditWatchListScreen extends Component {
                            style={styles.LogoStyle}/>
 
                     <TouchableOpacity style={styles.rightNavigationArrow}
-                                      onPress={()=>{this.props.navigation.navigate('WatchListScreen')}}>
+                                      onPress={() => {
+                                          this.props.navigation.navigate('WatchListScreen')
+                                      }}>
 
                         <Text style={styles.navigationText}> Watch Lists</Text>
 
@@ -56,14 +121,14 @@ class EditWatchListScreen extends Component {
                 {/* Body1 */}
 
                 <KeyboardAvoidingView style={styles.containerStyle}
-                      behavior="padding">
+                                      behavior="padding">
                     <View style={styles.fillerView}>
                     </View>
                     <View style={styles.textInputView}>
-                     <TextInput placeholderTextColor={'lightgrey'}
-                               placeholder="Add Allergy To Watch List"
-                               //onChangeText={(Password) => this.setState({Password:Password})}
-                               style={styles.textInputStyle}/>
+                        <TextInput placeholderTextColor={'lightgrey'}
+                                   placeholder="Add Allergy To Watch List"
+                            //onChangeText={(Password) => this.setState({Password:Password})}
+                                   style={styles.textInputStyle}/>
                     </View>
 
                     <FlatList
@@ -76,16 +141,18 @@ class EditWatchListScreen extends Component {
 
                     </FlatList>
 
-                    <View  style={styles.BottomTextInputView}>
+                    <View style={styles.BottomTextInputView}>
                         <TextInput placeholderTextColor={'lightgrey'}
                                    placeholder="Name your Watch List"
                                    style={styles.textInputStyle}/>
-                    </View >
+                    </View>
 
                 </KeyboardAvoidingView>
                 <View style={styles.doneContainerStyle}>
                     <TouchableOpacity style={styles.bottomButtonStyle}
-                                      onPress={()=>{this.props.navigation.navigate('WatchListScreen')}}>
+                                      onPress={() => {
+                                          this.props.navigation.navigate('WatchListScreen')
+                                      }}>
                         <Text style={styles.ButtonTextStyle}>
                             Done
                         </Text>
@@ -105,7 +172,7 @@ const styles = StyleSheet.create({
     //Header Styles
     headerStyle: {
         flexDirection: 'row',
-        justifyContent:'flex-end'
+        justifyContent: 'flex-end'
     },
     rightNavigationArrow: {
         flexDirection: 'row',
@@ -139,7 +206,7 @@ const styles = StyleSheet.create({
         marginLeft: '2.5%',
         marginRight: '2.5%',
     },
-    doneContainerStyle:{
+    doneContainerStyle: {
         height: '15%',
         width: '95%',
         backgroundColor: 'white',
@@ -149,45 +216,45 @@ const styles = StyleSheet.create({
     },
     textInputStyle: {
         fontSize: 20,
-        width:'90%',
+        width: '90%',
         marginLeft: '4%',
     },
-    fillerView:{
-      color:'white',
-      width:'100%',
-      height:20
+    fillerView: {
+        color: 'white',
+        width: '100%',
+        height: 20
     },
-    textInputView:{
-        alignSelf:'center',
-        width:'90%',
-        height:35,
-        borderColor:'lightgrey',
+    textInputView: {
+        alignSelf: 'center',
+        width: '90%',
+        height: 35,
+        borderColor: 'lightgrey',
         borderWidth: 3,
-        borderRadius:10,
+        borderRadius: 10,
     },
-    BottomTextInputView:{
-        alignSelf:'center',
-        width:'90%',
-        height:35,
-        borderColor:'lightgrey',
+    BottomTextInputView: {
+        alignSelf: 'center',
+        width: '90%',
+        height: 35,
+        borderColor: 'lightgrey',
         borderWidth: 3,
-        borderRadius:10,
-        bottom:15,
+        borderRadius: 10,
+        bottom: 15,
     },
-    bottomButtonStyle:{
-        width:180,
-        height:60,
+    bottomButtonStyle: {
+        width: 180,
+        height: 60,
         backgroundColor: '#88c540',
-        alignSelf:'center',
-        marginLeft:'5%',
-        marginRight:'5%',
-        borderRadius:10,
+        alignSelf: 'center',
+        marginLeft: '5%',
+        marginRight: '5%',
+        borderRadius: 10,
         marginTop: 20
     },
-    ButtonTextStyle:{
+    ButtonTextStyle: {
         alignSelf: 'center',
-        top:'25%',
+        top: '25%',
         fontSize: 22,
-        color:'white'
+        color: 'white'
     }
 });

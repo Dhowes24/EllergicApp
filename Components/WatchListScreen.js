@@ -10,7 +10,10 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from "react-native";
+
 import WatchListCards from "./WatchListCards";
+import gql from "graphql-tag";
+import {getWatchList} from "../src/graphql/queries";
 
 
 class WatchListScreen extends Component {
@@ -31,6 +34,27 @@ class WatchListScreen extends Component {
             </View>
         )
     };
+
+
+    //TODO
+    // componentDidMount() {
+        //for (let i=0; i<User.watchlist.length; i++)
+            // (async () => {
+            //     const result = await client.query({
+            //         mutation: gql(getWatchList),
+            //         variables: {
+            //                 id: User.watchlist[i].id
+            //         }
+            //     });
+            //     state.testListData.push({name:result.name, list:result.list})
+            // })();
+    // }
+
+    //TODO
+    //onDidFocus(){
+
+
+    //}
 
     render() {
         return (

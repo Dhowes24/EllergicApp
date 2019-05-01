@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="66f8712b-cc13-4ce5-85ab-f818b77cf6d7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/EditWatchlistScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/EditWatchlistScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Components/LoginScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/LoginScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Components/ScannerScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/ScannerScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Components/queries/getUser.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphql/schema.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/schema.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/WatchListScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/WatchListScreen.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/node_modules/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -32,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Components/LoginScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="85" column="33" selection-start-line="85" selection-start-column="33" selection-end-line="85" selection-end-column="33" />
+            <state relative-caret-position="232">
+              <caret line="72" column="40" lean-forward="true" selection-start-line="65" selection-start-column="18" selection-end-line="72" selection-end-column="40" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
                 <element signature="e#243#286#0" expanded="true" />
@@ -46,30 +45,36 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/aws-exports.js">
+        <entry file="file://$PROJECT_DIR$/Components/WatchListScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Components/ScannerScreen.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-808">
-              <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/graphql/queries.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="30" column="14" lean-forward="true" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+            <state relative-caret-position="369">
+              <caret line="49" column="20" lean-forward="true" selection-start-line="41" selection-start-column="10" selection-end-line="49" selection-end-column="20" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Components/WatchListCards.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="233">
+              <caret line="20" column="34" lean-forward="true" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Components/EditWatchlistScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="61" column="31" selection-start-line="61" selection-start-column="31" selection-end-line="61" selection-end-column="31" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,9 +83,33 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/graphql/mutations.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="-653">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/graphql/queries.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="384">
+              <caret line="51" column="14" selection-start-line="51" selection-start-column="14" selection-end-line="51" selection-end-column="25" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Components/ScannerScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1289">
+              <caret line="101" column="52" lean-forward="true" selection-start-line="101" selection-start-column="52" selection-end-line="101" selection-end-column="52" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -112,6 +141,8 @@
         <option value="$PROJECT_DIR$/aws-exports.js" />
         <option value="$PROJECT_DIR$/Components/ScannerScreen.js" />
         <option value="$PROJECT_DIR$/Components/LoginScreen.js" />
+        <option value="$PROJECT_DIR$/Components/WatchListScreen.js" />
+        <option value="$PROJECT_DIR$/Components/EditWatchlistScreen.js" />
       </list>
     </option>
   </component>
@@ -190,12 +221,12 @@
       <workItem from="1556241006894" duration="1634000" />
       <workItem from="1556388100101" duration="10990000" />
       <workItem from="1556542968054" duration="9746000" />
-      <workItem from="1556594890936" duration="5481000" />
+      <workItem from="1556594890936" duration="11485000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34463000" />
+    <option name="totallyTimeSpent" value="40467000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -210,7 +241,7 @@
     <frame x="4" y="23" width="1087" height="849" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24953096" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24953096" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -224,7 +255,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32893" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.34346104" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.28137386" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -239,12 +270,17 @@
     <entry file="file://$PROJECT_DIR$/.graphqlconfig.yml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphql/mutations.js">
+    <entry file="file://$PROJECT_DIR$/src/graphql/schema.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state relative-caret-position="255">
+          <caret line="17" column="31" lean-forward="true" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/aws-exports.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
@@ -260,42 +296,88 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Components/ScannerScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-808">
-          <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
+        <state relative-caret-position="1289">
+          <caret line="101" column="52" lean-forward="true" selection-start-line="101" selection-start-column="52" selection-end-line="101" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphql/schema.json">
+    <entry file="file://$PROJECT_DIR$/Components/FriendCard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="31" lean-forward="true" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+        <state relative-caret-position="-287">
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Components/FriendsScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Components/WatchListCards.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="20" column="34" lean-forward="true" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/graphql/queries.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="30" column="14" lean-forward="true" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+        <state relative-caret-position="384">
+          <caret line="51" column="14" selection-start-line="51" selection-start-column="14" selection-end-line="51" selection-end-column="25" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/aws-exports.js">
+    <entry file="file://$PROJECT_DIR$/src/graphql/mutations.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="-653">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Components/LoginScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="85" column="33" selection-start-line="85" selection-start-column="33" selection-end-line="85" selection-end-column="33" />
+        <state relative-caret-position="232">
+          <caret line="72" column="40" lean-forward="true" selection-start-line="65" selection-start-column="18" selection-end-line="72" selection-end-column="40" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
             <element signature="e#243#286#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Components/WatchListScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="49" column="20" lean-forward="true" selection-start-line="41" selection-start-column="10" selection-end-line="49" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Components/EditWatchlistScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="61" column="31" selection-start-line="61" selection-start-column="31" selection-end-line="61" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
