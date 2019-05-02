@@ -39,16 +39,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 grocerylists
             };
             return newState;
-        case 'UPDATE_WATCHLISTS':
-
-            watchlists = action.payload;
-
-            newState = {
-                ID,
-                watchlists,
-                grocerylists
-            };
-            return newState;
         case "UPDATE_USER":
 
             ID = action.payload.username;

@@ -10,15 +10,19 @@ import {
     TouchableOpacity,
 } from "react-native";
 
+/**
+ * graphql imports
+ */
 import AWSAppSyncClient from "aws-appsync";
 import aws_config from "../aws-exports";
 import gql from "graphql-tag";
-
-import { connect } from 'react-redux';
-
 import {getUser} from "../src/graphql/queries";
 import {createUser} from "../src/graphql/mutations";
 
+/**
+ * redux imports
+ */
+import { connect } from 'react-redux';
 import {updateUser} from "../actions/UserActions";
 import {bindActionCreators} from "redux";
 
@@ -49,70 +53,71 @@ class LoginScreen extends React.Component {
 
 
     async loginOrSignUp() {
-        if(this.state.Username.length==0 || this.state.Password.length==0){
-            //TODO set a state which switches a note
-        }
+        this.props.navigation.navigate('ScannerScreen');
 
-        else if(!this.state.Login&& this.state.ConfirmPassword.length==0){
-            //TODO set note
-        }
-
-        else {
-            await client.hydrated();
-
-            try {
-
-
-                (async () => {
-
-                    let result = await client.query({
-                        query: gql(getUser),
-                        variables: {
-                            username: this.state.Username
-                        },
-                        fetchPolicy: 'network-only'
-                    });
-                    console.log(result);
-
-                    if (this.state.Login) {
-                        console.log(result.data.getUser);
-                        if (this.state.Password == result.data.getUser.password) {
-                            console.log(result.data.getUser.password);
-                            this.props.updateUser(result.data.getUser);
-                            this.props.navigation.navigate('ScannerScreen')
-                        }
-                        else{
-                            //TODO incorrect password or username
-                        }
-
-                    } else {
-                        if(result.data.getUser==null) {
-                            if (this.state.Password == this.state.ConfirmPassword) {
-                                (async () => {
-                                    const result = await client.mutate({
-                                        mutation: gql(createUser),
-                                        variables: {
-                                            input: {
-                                                username: this.state.Username,
-                                                password: this.state.Password,
-                                            }
-                                        }
-                                    });
-                                    console.log(result);
-                                })();
-                                this.props.navigation.navigate('ScannerScreen')
-                            } else {
-                                //TODO passwords must be the same note
-                            }
-                        } else{
-                            //TODO username in use note
-                        }
-                    }
-                })();
-            } catch (err) {
-                console.log('error: ', err)
-            }
-        }
+        // if(this.state.Username.length==0 || this.state.Password.length==0){
+        //     //TODO set a state which switches a note
+        // }
+        //
+        // else if(!this.state.Login&& this.state.ConfirmPassword.length==0){
+        //     //TODO set note
+        // }
+        //
+        // else {
+        //     await client.hydrated();
+        //
+        //     try {
+        //
+        //
+        //         (async () => {
+        //
+        //             let result = await client.query({
+        //                 query: gql(getUser),
+        //                 variables: {
+        //                     username: this.state.Username
+        //                 },
+        //                 fetchPolicy: 'network-only'
+        //             });
+        //             console.log(result);
+        //
+        //             if (this.state.Login) {
+        //                 if (this.state.Password == result.data.getUser.password) {
+        //                     console.log(result.data.getUser.password);
+        //                     this.props.updateUser(result.data.getUser);
+        //                     this.props.navigation.navigate('ScannerScreen')
+        //                 }
+        //                 else{
+        //                     //TODO incorrect password or username
+        //                 }
+        //
+        //             } else {
+        //                 if(result.data.getUser==null) {
+        //                     if (this.state.Password == this.state.ConfirmPassword) {
+        //                         (async () => {
+        //                             const result = await client.mutate({
+        //                                 mutation: gql(createUser),
+        //                                 variables: {
+        //                                     input: {
+        //                                         username: this.state.Username,
+        //                                         password: this.state.Password,
+        //                                     }
+        //                                 }
+        //                             });
+        //                             console.log(result);
+        //                         })();
+        //                         this.props.navigation.navigate('ScannerScreen')
+        //                     } else {
+        //                         //TODO passwords must be the same note
+        //                     }
+        //                 } else{
+        //                     //TODO username in use note
+        //                 }
+        //             }
+        //         })();
+        //     } catch (err) {
+        //         console.log('error: ', err)
+        //     }
+        // }
 
     };
 

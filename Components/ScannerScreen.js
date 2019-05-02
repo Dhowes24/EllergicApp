@@ -133,7 +133,7 @@ class ScannerScreen extends Component {
     };
 
     testRedux = () =>{
-        alert(this.props.user.watchlists)
+        alert(this.props.user.watchlists.length)
     };
 
 

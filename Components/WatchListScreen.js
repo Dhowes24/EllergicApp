@@ -12,9 +12,32 @@ import {
 } from "react-native";
 
 import WatchListCards from "./WatchListCards";
+
+/**
+ * graphql imports
+ */
 import gql from "graphql-tag";
+import AWSAppSyncClient from "aws-appsync";
+import aws_config from "../aws-exports";
 import {getWatchList} from "../src/graphql/queries";
 
+/**
+ * redux imports
+ */
+import {bindActionCreators} from "redux";
+import {updateUser} from "../actions/UserActions";
+import {connect} from "react-redux";
+
+
+
+const client = new AWSAppSyncClient({
+    url: aws_config.aws_appsync_graphqlEndpoint,
+    region: aws_config.aws_appsync_region,
+    auth: {
+        type: aws_config.aws_appsync_authenticationType,
+        apiKey: aws_config.aws_appsync_apiKey,
+    }
+});
 
 class WatchListScreen extends Component {
 
@@ -23,7 +46,8 @@ class WatchListScreen extends Component {
     };
 
     state = {
-        testListData: [{ListName: 'Emilys Family'}, {ListName: 'No Nutsense'}, {ListName: 'Vegan'}]
+        testListData: [{ListName: 'Emilys Family'}, {ListName: 'No Nutsense'}, {ListName: 'Vegan'}],
+        realData:[]
     };
 
     renderFooter = () => {
@@ -37,18 +61,30 @@ class WatchListScreen extends Component {
 
 
     //TODO
-    // componentDidMount() {
-        //for (let i=0; i<User.watchlist.length; i++)
-            // (async () => {
-            //     const result = await client.query({
-            //         mutation: gql(getWatchList),
-            //         variables: {
-            //                 id: User.watchlist[i].id
-            //         }
-            //     });
-            //     state.testListData.push({name:result.name, list:result.list})
-            // })();
-    // }
+    componentDidMount(){
+        let watchlistData = [];
+            for (let i = 0; i < this.props.user.watchlists.length; i++) {
+                (async () => {
+                    const result = await client.query({
+                        query: gql(getWatchList),
+                        variables: {
+                            id: this.props.user.watchlists[i]
+                        },
+                        fetchPolicy: 'network-only'
+                    });
+                    let obj = {};
+                    obj["List"] = result.data.getWatchList.list;
+                    obj["ListName"] = result.data.getWatchList.name;
+                    console.log(obj);
+
+                    watchlistData.push(obj);
+                    console.log(watchlistData.length)
+                    if(watchlistData.length == this.props.user.watchlists.length){
+                        this.setState({realData:watchlistData})
+                    }
+                })();
+            }
+    }
 
     //TODO
     //onDidFocus(){
@@ -101,7 +137,10 @@ class WatchListScreen extends Component {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.bottomButtonStyle}
-                                      onPress={()=>{this.props.navigation.navigate('FriendsScreen')}}>
+                                      onPress={()=>{
+                                          alert(this.state.realData.length)
+                                          //this.props.navigation.navigate('FriendsScreen')
+                                      }}>
                         <Text style={styles.ButtonTextStyle}>
                             Download Friends Watchlist
                         </Text>
@@ -114,8 +153,17 @@ class WatchListScreen extends Component {
     }
 }
 
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        updateUser,
+    }, dispatch)
+);
+const mapStateToProps = (state) => {
+    const { user } = state;
+    return { user }
+};
 
-export default WatchListScreen;
+export default connect (mapStateToProps, mapDispatchToProps)(WatchListScreen);
 
 
 const styles = StyleSheet.create({
