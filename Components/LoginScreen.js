@@ -10,15 +10,17 @@ import {
     TouchableOpacity,
 } from "react-native";
 
-// import { compose, graphql } from 'react-apollo'
 import AWSAppSyncClient from "aws-appsync";
 import aws_config from "../aws-exports";
 import gql from "graphql-tag";
 
+import { connect } from 'react-redux';
 
 import {getUser} from "../src/graphql/queries";
 import {createUser} from "../src/graphql/mutations";
-import {listUsers} from "../src/graphql/queries";
+
+import {updateUser} from "../actions/UserActions";
+import {bindActionCreators} from "redux";
 
 const client = new AWSAppSyncClient({
     url: aws_config.aws_appsync_graphqlEndpoint,
@@ -30,7 +32,7 @@ const client = new AWSAppSyncClient({
 });
 
 
-class LoginScreen extends Component {
+class LoginScreen extends React.Component {
 
     state = {
         fontLoaded: false,
@@ -76,6 +78,7 @@ class LoginScreen extends Component {
                         console.log(result.data.getUser);
                         if (this.state.Password == result.data.getUser.password) {
                             console.log(result.data.getUser.password);
+                            this.props.updateUser(result.data.getUser);
                             this.props.navigation.navigate('ScannerScreen')
                         }
                         else{
@@ -214,9 +217,20 @@ class LoginScreen extends Component {
         </ImageBackground>)
 
     }
+
 }
 
-export default LoginScreen;
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        updateUser,
+    }, dispatch)
+);
+const mapStateToProps = (state) => {
+    const { user } = state;
+    return { user }
+};
+
+export default connect (mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles= StyleSheet.create({
     Title:{

@@ -1,27 +1,21 @@
 import React, {Component} from "react";
-
 import {
     View,
     Text,
     StyleSheet,
-    Button,
     ImageBackground,
     Image,
-    TextInput,
     TouchableOpacity,
 } from "react-native";
 
 import gql from 'graphql-tag';
 
 
-import { API, graphqlOperation } from 'aws-amplify'
-import {getUser} from '../src/graphql/queries'
-
 import {Camera, Permissions, BarCodeScanner} from 'expo';
 import AWSAppSyncClient from "aws-appsync";
 import aws_config from "../aws-exports";
 
-
+import { connect } from 'react-redux';
 
 //Nutrionix APP ID
 const appID = 'e8fe8164';
@@ -53,10 +47,6 @@ class ScannerScreen extends Component {
     };
 
     state = {
-        warningNeeded:false,
-
-        allerginsFound:[],
-
         hasCameraPermission: null,
         type: Camera.Constants.Type.back,
     };
@@ -107,7 +97,7 @@ class ScannerScreen extends Component {
                     />}
                 </View>
                 <TouchableOpacity
-                    onPress={() => {this.handleBarCodeScanned()}}>
+                    onPress={() => {this.testRedux()}}>
                     <Image source={require('../assets/MainPageLogo-E-llergic.png')} //Home Logo
                            style={styles.LogoStyle}/>
                 </TouchableOpacity>
@@ -142,11 +132,19 @@ class ScannerScreen extends Component {
         //Function that calls a modal depending on whether 'warningNeeded' is Positive or False
     };
 
+    testRedux = () =>{
+        alert(this.props.user.watchlists)
+    };
+
 
 }
 
+const mapStateToProps = (state) => {
+    const { user } = state;
+    return { user }
+};
 
-export default ScannerScreen;
+export default connect(mapStateToProps)(ScannerScreen);
 
 const styles = StyleSheet.create({
     //Header Styles
