@@ -53,71 +53,71 @@ class LoginScreen extends React.Component {
 
 
     async loginOrSignUp() {
-        this.props.navigation.navigate('ScannerScreen');
+        //this.props.navigation.navigate('ScannerScreen');
 
-        // if(this.state.Username.length==0 || this.state.Password.length==0){
-        //     //TODO set a state which switches a note
-        // }
-        //
-        // else if(!this.state.Login&& this.state.ConfirmPassword.length==0){
-        //     //TODO set note
-        // }
-        //
-        // else {
-        //     await client.hydrated();
-        //
-        //     try {
-        //
-        //
-        //         (async () => {
-        //
-        //             let result = await client.query({
-        //                 query: gql(getUser),
-        //                 variables: {
-        //                     username: this.state.Username
-        //                 },
-        //                 fetchPolicy: 'network-only'
-        //             });
-        //             console.log(result);
-        //
-        //             if (this.state.Login) {
-        //                 if (this.state.Password == result.data.getUser.password) {
-        //                     console.log(result.data.getUser.password);
-        //                     this.props.updateUser(result.data.getUser);
-        //                     this.props.navigation.navigate('ScannerScreen')
-        //                 }
-        //                 else{
-        //                     //TODO incorrect password or username
-        //                 }
-        //
-        //             } else {
-        //                 if(result.data.getUser==null) {
-        //                     if (this.state.Password == this.state.ConfirmPassword) {
-        //                         (async () => {
-        //                             const result = await client.mutate({
-        //                                 mutation: gql(createUser),
-        //                                 variables: {
-        //                                     input: {
-        //                                         username: this.state.Username,
-        //                                         password: this.state.Password,
-        //                                     }
-        //                                 }
-        //                             });
-        //                             console.log(result);
-        //                         })();
-        //                         this.props.navigation.navigate('ScannerScreen')
-        //                     } else {
-        //                         //TODO passwords must be the same note
-        //                     }
-        //                 } else{
-        //                     //TODO username in use note
-        //                 }
-        //             }
-        //         })();
-        //     } catch (err) {
-        //         console.log('error: ', err)
-        //     }
-        // }
+        if(this.state.Username.length==0 || this.state.Password.length==0){
+            //TODO set a state which switches a note
+        }
+
+        else if(!this.state.Login&& this.state.ConfirmPassword.length==0){
+            //TODO set note
+        }
+
+        else {
+            await client.hydrated();
+
+            try {
+
+
+                (async () => {
+
+                    let result = await client.query({
+                        query: gql(getUser),
+                        variables: {
+                            username: this.state.Username
+                        },
+                        fetchPolicy: 'network-only'
+                    });
+                    console.log(result);
+
+                    if (this.state.Login) {
+                        if (this.state.Password == result.data.getUser.password) {
+                            console.log(result.data.getUser.password);
+                            this.props.updateUser(result.data.getUser);
+                            this.props.navigation.navigate('ScannerScreen')
+                        }
+                        else{
+                            //TODO incorrect password or username
+                        }
+
+                    } else {
+                        if(result.data.getUser==null) {
+                            if (this.state.Password == this.state.ConfirmPassword) {
+                                (async () => {
+                                    const result = await client.mutate({
+                                        mutation: gql(createUser),
+                                        variables: {
+                                            input: {
+                                                username: this.state.Username,
+                                                password: this.state.Password,
+                                            }
+                                        }
+                                    });
+                                    console.log(result);
+                                })();
+                                this.props.navigation.navigate('ScannerScreen')
+                            } else {
+                                //TODO passwords must be the same note
+                            }
+                        } else{
+                            //TODO username in use note
+                        }
+                    }
+                })();
+            } catch (err) {
+                console.log('error: ', err)
+            }
+        }
 
     };
 

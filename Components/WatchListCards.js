@@ -19,18 +19,24 @@ class WatchListCards extends Component {
 
     state = {
         name: this.props.ListName,
-
+        list: this.props.List,
         ellipseToggle: false,
         checkToggle: false
-    };
-
-    removeFriend(Name) {
-        this.props.removeFunc(Name)
     };
 
     navigateTo(page){
         this.props.navigateTo(page)
     }
+
+    listItems(column){
+        let splitList = this.state.list.split(",");
+        let outputList=[];
+        for (let i = column; i<splitList.length;i+=3){
+            console.log(i);
+            outputList.push(splitList[i] +"\n")
+        }
+        return outputList
+    };
 
     render() {
 
@@ -79,9 +85,15 @@ class WatchListCards extends Component {
                 </CardItem>
 
                 {this.state.ellipseToggle && <CardItem style={styles.CardStyle}>
-                    <Text>
-                        List
-                    </Text>
+                        <Text>
+                            {this.listItems(0)}
+                        </Text>
+                        <Text>
+                            {this.listItems(1)}
+                        </Text>
+                        <Text>
+                            {this.listItems(2)}
+                        </Text>
                 </CardItem>}
 
                 <CardItem>

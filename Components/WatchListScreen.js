@@ -75,10 +75,8 @@ class WatchListScreen extends Component {
                     let obj = {};
                     obj["List"] = result.data.getWatchList.list;
                     obj["ListName"] = result.data.getWatchList.name;
-                    console.log(obj);
 
                     watchlistData.push(obj);
-                    console.log(watchlistData.length)
                     if(watchlistData.length == this.props.user.watchlists.length){
                         this.setState({realData:watchlistData})
                     }
@@ -116,9 +114,10 @@ class WatchListScreen extends Component {
 
                 <View style={styles.containerStyle}>
                     <FlatList
-                        data={this.state.testListData}
+                        data={this.state.realData}
                         renderItem={({item}) => (
                             <WatchListCards ListName={item.ListName}
+                                            List= {item.List}
                                             state={this.state}
                                             navigateTo={this.props.navigation.navigate.bind(this)}/>
                         )}
