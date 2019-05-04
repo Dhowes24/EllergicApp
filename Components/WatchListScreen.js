@@ -46,7 +46,6 @@ class WatchListScreen extends Component {
     };
 
     state = {
-        testListData: [{ListName: 'Emilys Family'}, {ListName: 'No Nutsense'}, {ListName: 'Vegan'}],
         realData:[]
     };
 
@@ -83,12 +82,6 @@ class WatchListScreen extends Component {
                 })();
             }
     }
-
-    //TODO
-    //onDidFocus(){
-
-
-    //}
 
     render() {
         return (

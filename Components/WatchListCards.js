@@ -10,6 +10,9 @@ import {
 
 
 import {Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon} from "native-base";
+import {bindActionCreators} from "redux";
+import {editList} from "../actions/ListActions";
+import {connect} from "react-redux";
 
 class WatchListCards extends Component {
 
@@ -25,6 +28,7 @@ class WatchListCards extends Component {
     };
 
     navigateTo(page){
+
         this.props.navigateTo(page)
     }
 
@@ -77,7 +81,9 @@ class WatchListCards extends Component {
 
                     <TouchableOpacity>
                         <Text style={styles.EditTextStyle}
-                              onPress={()=>{this.navigateTo('EditWatchListScreen')}}>
+                              onPress={()=>{
+                                  this.props.editList({ListName:this.state.name , List:this.state.list});
+                                  this.navigateTo('EditWatchListScreen');}}>
                             Edit
                         </Text>
                     </TouchableOpacity>
@@ -107,7 +113,17 @@ class WatchListCards extends Component {
 
 }
 
-export default WatchListCards;
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        editList
+    }, dispatch)
+);
+const mapStateToProps = (state) => {
+    const { list } = state;
+    return { list }
+};
+
+export default connect (mapStateToProps,mapDispatchToProps)(WatchListCards);
 
 const styles = StyleSheet.create({
 

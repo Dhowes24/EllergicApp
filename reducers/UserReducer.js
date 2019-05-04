@@ -1,12 +1,17 @@
 import {combineReducers} from 'redux';
 
-const INITIAL_STATE = {
+const USER_STATE = {
     ID: "TestID",
     watchlists: [],
     grocerylists: [],
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const LIST_STATE = {
+    ListName: "",
+    listItems: [],
+};
+
+const userReducer = (state = USER_STATE, action) => {
 
     let {
         ID,
@@ -56,6 +61,30 @@ const userReducer = (state = INITIAL_STATE, action) => {
     }
 };
 
+const ListReducer = (state = LIST_STATE, action) => {
+
+    let {
+        ListName,
+        listItems
+    } = state;
+
+    switch (action.type) {
+        case 'EDIT_LIST':
+            ListName = action.payload.ListName;
+            listItems = action.payload.List;
+
+            let newState = {
+                ListName,
+                listItems
+            };
+            return newState;
+
+        default:
+            return state;
+    }
+};
+
 export default combineReducers({
     user: userReducer,
+    list:ListReducer
 });

@@ -15,6 +15,7 @@ import {
 import {createWatchList} from "../src/graphql/mutations";
 import gql from "graphql-tag";
 import {getUser} from "../src/graphql/queries";
+import {connect} from "react-redux";
 
 
 class EditWatchListScreen extends Component {
@@ -27,13 +28,9 @@ class EditWatchListScreen extends Component {
         id: null
     };
 
-    //TODO
-    // onComponentWillMount(){
-    //     if(this.props.name!=null){
-    //         CSV parse this.props.list
-    //         setstate list: CSV parsed List
-    //     }
-    //}
+    componentDidMount() {
+        alert(this.props.list.ListName)
+    }
 
     //TODO
     // done() {
@@ -164,8 +161,12 @@ class EditWatchListScreen extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    const { list } = state;
+    return { list }
+};
 
-export default EditWatchListScreen;
+export default connect (mapStateToProps)(EditWatchListScreen);
 
 
 const styles = StyleSheet.create({

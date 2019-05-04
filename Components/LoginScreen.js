@@ -105,6 +105,7 @@ class LoginScreen extends React.Component {
                                     });
                                     console.log(result);
                                 })();
+                                this.props.updateUser(result.data.getUser);
                                 this.props.navigation.navigate('ScannerScreen')
                             } else {
                                 //TODO passwords must be the same note

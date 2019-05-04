@@ -25,6 +25,7 @@ import SettingsScreen from './Components/SettingsScreen';
 import DownloadFriendListScreen from "./Components/DownloadFriendListScreen";
 import FriendCard from './Components/FriendCard';
 import WatchListScreen from './Components/WatchListScreen';
+import WatchListCards from './Components/WatchListCards';
 import GroceryListsScreen from './Components/GroceryListsScreen';
 import EditWatchListScreen from './Components/EditWatchlistScreen';
 import EditGroceryListScreen from './Components/EditGroceryListScreen';
@@ -92,6 +93,9 @@ const AppNavigator = createStackNavigator({
     },
     FriendCard: {
         screen: FriendCard
+    },
+    WatchListCards:{
+      screen: WatchListCards
     },
     WatchListScreen: {
         screen: WatchListScreen
