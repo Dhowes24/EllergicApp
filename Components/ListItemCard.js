@@ -19,7 +19,7 @@ class ListItemCard extends Component {
     }
 
     state = {
-        name: this.props.listItem,
+        item: this.props.ListItem,
     };
 
     render() {
@@ -29,7 +29,7 @@ class ListItemCard extends Component {
 
                 <CardItem style={styles.CardStyle}>
                     <Text style={styles.nameText}>
-                        {this.state.name}
+                        {this.state.item}
                     </Text>
                     {/*<TouchableHighlight>*/}
                         {/*/!*Make a swipe delete*!/*/}

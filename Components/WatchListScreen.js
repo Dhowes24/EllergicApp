@@ -25,6 +25,7 @@ import {getWatchList} from "../src/graphql/queries";
  * redux imports
  */
 import {bindActionCreators} from "redux";
+import {editList} from "../actions/ListActions";
 import {updateUser} from "../actions/UserActions";
 import {connect} from "react-redux";
 
@@ -123,7 +124,9 @@ class WatchListScreen extends Component {
                 {/* Body2 */}
                 <View style={styles.createContainerStyle}>
                     <TouchableOpacity style={styles.bottomButtonStyle}
-                                      onPress={()=>{this.props.navigation.navigate('EditWatchListScreen')}}>
+                                      onPress={()=>{
+                                          this.props.editList({ListName:null, List:null});
+                                          this.props.navigation.navigate('EditWatchListScreen')}}>
                         <Text style={styles.ButtonTextStyle}>
                             Create Watchlist
                         </Text>
@@ -148,6 +151,7 @@ class WatchListScreen extends Component {
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
         updateUser,
+        editList
     }, dispatch)
 );
 const mapStateToProps = (state) => {

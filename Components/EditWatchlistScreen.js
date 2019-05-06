@@ -12,10 +12,21 @@ import {
     TextInput,
     KeyboardAvoidingView
 } from "react-native";
+import ListItemCard from "./ListItemCard";
+
+
+/**
+ * Graphql Imports
+ */
 import {createWatchList} from "../src/graphql/mutations";
 import gql from "graphql-tag";
 import {getUser} from "../src/graphql/queries";
+
+/**
+ * Redux Imports
+ */
 import {connect} from "react-redux";
+
 
 
 class EditWatchListScreen extends Component {
@@ -25,13 +36,25 @@ class EditWatchListScreen extends Component {
     };
 
     state = {
-        id: null
+        id: null,
+        listItems:[]
     };
 
     componentDidMount() {
-        alert(this.props.list.ListName)
+        let seperatedItems = this.props.list.listItems.split(", ");
+        let stateList = [];
+        for (let i =0; i<seperatedItems.length;i++){
+            let obj = {};
+            obj["ListItem"] = seperatedItems[i];
+            stateList.push(obj)
+        }
+        this.setState({listItems:stateList});
+        console.log(stateList);
     }
 
+    seperateItems = () =>{
+
+    };
     //TODO
     // done() {
     //     let listString;
@@ -129,11 +152,13 @@ class EditWatchListScreen extends Component {
                     </View>
 
                     <FlatList
-                        data={this.state.testListData}
+                        data={this.state.listItems}
                         renderItem={({item}) => (
-                            <WatchListCards ListName={item.ListName}/>
+                            <ListItemCard ListItem={item.ListItem}
+                                            state={this.state}
+                                            />
                         )}
-                        keyExtractor={item => item.ListName}
+                        keyExtractor={item => item.ListItem}
                         ListFooterComponent={this.renderFooter()}>
 
                     </FlatList>
