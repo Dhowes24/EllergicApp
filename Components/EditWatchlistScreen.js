@@ -26,7 +26,7 @@ import {getUser} from "../src/graphql/queries";
  * Redux Imports
  */
 import {connect} from "react-redux";
-
+import Video from "expo/build/av/Video";
 
 
 class EditWatchListScreen extends Component {
@@ -36,25 +36,39 @@ class EditWatchListScreen extends Component {
     };
 
     state = {
-        id: null,
-        listItems:[]
+        newItem: "",
+        id: this.props.list.ListName,
+        listItems: this.props.list.listItems
     };
 
-    componentDidMount() {
-        let seperatedItems = this.props.list.listItems.split(", ");
-        let stateList = [];
-        for (let i =0; i<seperatedItems.length;i++){
+
+    allergyEntrySubmit = () => {
+        if (this.state.newItem != "") {
+            let stateList = this.state.listItems;
             let obj = {};
-            obj["ListItem"] = seperatedItems[i];
-            stateList.push(obj)
+            obj["ListItem"] = this.state.newItem;
+            stateList.push(obj);
+            this.setState({listItems: stateList});
+            this.AllergyEntry.clear();
         }
-        this.setState({listItems:stateList});
-        console.log(stateList);
-    }
-
-    seperateItems = () =>{
 
     };
+
+    donePressed = () => {
+        let stateList = this.state.listItems;
+        let listString="";
+        for (let i =0;i<stateList.length;i++){
+            listString +=stateList[i].ListItem;
+            if(i!=stateList.length-1){
+                listString+=','
+            }
+        }
+        alert(listString);
+        this.props.navigation.navigate('WatchListScreen')
+
+
+    };
+
     //TODO
     // done() {
     //     let listString;
@@ -144,36 +158,52 @@ class EditWatchListScreen extends Component {
                                       behavior="padding">
                     <View style={styles.fillerView}>
                     </View>
-                    <View style={styles.textInputView}>
-                        <TextInput placeholderTextColor={'lightgrey'}
-                                   placeholder="Add Allergy To Watch List"
-                            //onChangeText={(Password) => this.setState({Password:Password})}
-                                   style={styles.textInputStyle}/>
+
+                    <View style={styles.nameInputView}>
+                        {this.state.id != null && <TextInput placeholderTextColor={'black'}
+                                                             placeholder={this.state.id}
+                                                             style={styles.textInputStyle}/>}
+                        {this.state.id == null && <TextInput placeholderTextColor={'lightgrey'}
+                                                             placeholder="Name your Watch List"
+                                                             style={styles.textInputStyle}/>}
+                    </View>
+
+                    <View style={styles.allergyInputContainer}>
+                        <View style={styles.allergyInputView}>
+                            <TextInput ref={input => {
+                                this.AllergyEntry = input
+                            }}
+                                       placeholderTextColor={'lightgrey'}
+                                       placeholder="Add Allergy To Watch List"
+                                       onChangeText={(Allergy) => this.setState({newItem: Allergy})}
+                                       style={styles.textInputStyle}
+                            />
+                        </View>
+                        <TouchableOpacity onPress={() =>{
+                            this.allergyEntrySubmit()
+                        }}>
+                            <Image source={require('../assets/SubmitButton.png')}
+                                   style={styles.submitButtonStyle}/>
+                        </TouchableOpacity>
                     </View>
 
                     <FlatList
                         data={this.state.listItems}
                         renderItem={({item}) => (
                             <ListItemCard ListItem={item.ListItem}
-                                            state={this.state}
-                                            />
+                                          state={this.state}
+                            />
                         )}
                         keyExtractor={item => item.ListItem}
                         ListFooterComponent={this.renderFooter()}>
 
                     </FlatList>
 
-                    <View style={styles.BottomTextInputView}>
-                        <TextInput placeholderTextColor={'lightgrey'}
-                                   placeholder="Name your Watch List"
-                                   style={styles.textInputStyle}/>
-                    </View>
-
                 </KeyboardAvoidingView>
                 <View style={styles.doneContainerStyle}>
                     <TouchableOpacity style={styles.bottomButtonStyle}
                                       onPress={() => {
-                                          this.props.navigation.navigate('WatchListScreen')
+                                          this.donePressed()
                                       }}>
                         <Text style={styles.ButtonTextStyle}>
                             Done
@@ -187,11 +217,11 @@ class EditWatchListScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { list } = state;
-    return { list }
+    const {list} = state;
+    return {list}
 };
 
-export default connect (mapStateToProps)(EditWatchListScreen);
+export default connect(mapStateToProps)(EditWatchListScreen);
 
 
 const styles = StyleSheet.create({
@@ -250,22 +280,33 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 20
     },
-    textInputView: {
+    nameInputView: {
         alignSelf: 'center',
         width: '90%',
         height: 35,
         borderColor: 'lightgrey',
         borderWidth: 3,
         borderRadius: 10,
+        marginBottom: 15
     },
-    BottomTextInputView: {
-        alignSelf: 'center',
-        width: '90%',
+    allergyInputContainer: {
+        flexDirection: "row",
+        alignSelf: 'flex-start',
+        left: "3.2%"
+    },
+    allergyInputView: {
+        width: '70%',
         height: 35,
         borderColor: 'lightgrey',
         borderWidth: 3,
         borderRadius: 10,
-        bottom: 15,
+        marginBottom: 15
+    },
+    submitButtonStyle: {
+        top: 5,
+        left: 10,
+        height: 25,
+        width: 60,
     },
     bottomButtonStyle: {
         width: 180,
