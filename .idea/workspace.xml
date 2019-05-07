@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="66f8712b-cc13-4ce5-85ab-f818b77cf6d7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/actions/AllerginActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Components/WatchListCards.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/WatchListCards.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Components/WatchListScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/WatchListScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reducers/UserReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/reducers/UserReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/ScannerScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/ScannerScreen.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/node_modules/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -53,8 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Components/WatchListCards.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-425">
-              <caret line="167" column="77" selection-start-line="167" selection-start-column="77" selection-end-line="167" selection-end-column="77" />
+            <state relative-caret-position="158">
+              <caret line="205" selection-start-line="205" selection-end-line="211" selection-end-column="2" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="e#279#320#0" expanded="true" />
@@ -68,10 +64,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Components/ScannerScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="331" column="15" lean-forward="true" selection-start-line="331" selection-start-column="15" selection-end-line="331" selection-end-column="15" />
+            <state relative-caret-position="293">
+              <caret line="189" column="58" selection-start-line="189" selection-start-column="58" selection-end-line="189" selection-end-column="58" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#244#287#0" expanded="true" />
+                <element signature="e#492#568#0" expanded="true" />
+                <element signature="e#7926#10354#0" />
               </folding>
             </state>
           </provider>
@@ -128,7 +127,6 @@
         <option value="$PROJECT_DIR$/Components/queries/getUser.js" />
         <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/actions/UserActions.js" />
-        <option value="$PROJECT_DIR$/Components/ScannerScreen.js" />
         <option value="$PROJECT_DIR$/Components/GroceryListCards.js" />
         <option value="$PROJECT_DIR$/reducers/WatchlistReducer.js" />
         <option value="$PROJECT_DIR$/actions/ListActions.js" />
@@ -142,6 +140,7 @@
         <option value="$PROJECT_DIR$/actions/AllerginActions.js" />
         <option value="$PROJECT_DIR$/reducers/UserReducer.js" />
         <option value="$PROJECT_DIR$/Components/WatchListCards.js" />
+        <option value="$PROJECT_DIR$/Components/ScannerScreen.js" />
       </list>
     </option>
   </component>
@@ -230,12 +229,12 @@
       <workItem from="1556241006894" duration="1634000" />
       <workItem from="1556388100101" duration="10990000" />
       <workItem from="1556542968054" duration="9746000" />
-      <workItem from="1556594890936" duration="82248000" />
+      <workItem from="1556594890936" duration="84786000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="111230000" />
+    <option name="totallyTimeSpent" value="113768000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -250,7 +249,7 @@
     <frame x="3" y="23" width="1050" height="849" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2585034" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2585034" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -264,7 +263,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32893" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.35006604" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.35006604" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -444,6 +443,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Components/LoginScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="106" column="37" lean-forward="true" selection-start-line="95" selection-start-column="32" selection-end-line="106" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#219#262#0" expanded="true" />
+            <element signature="e#462#500#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Components/WatchListScreen.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="327">
@@ -458,22 +469,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Components/LoginScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="106" column="37" lean-forward="true" selection-start-line="95" selection-start-column="32" selection-end-line="106" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#219#262#0" expanded="true" />
-            <element signature="e#462#500#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Components/WatchListCards.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-425">
-          <caret line="167" column="77" selection-start-line="167" selection-start-column="77" selection-end-line="167" selection-end-column="77" />
+        <state relative-caret-position="158">
+          <caret line="205" selection-start-line="205" selection-end-line="211" selection-end-column="2" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
             <element signature="e#279#320#0" expanded="true" />
@@ -485,10 +484,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Components/ScannerScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="331" column="15" lean-forward="true" selection-start-line="331" selection-start-column="15" selection-end-line="331" selection-end-column="15" />
+        <state relative-caret-position="293">
+          <caret line="189" column="58" selection-start-line="189" selection-start-column="58" selection-end-line="189" selection-end-column="58" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#244#287#0" expanded="true" />
+            <element signature="e#492#568#0" expanded="true" />
+            <element signature="e#7926#10354#0" />
           </folding>
         </state>
       </provider>

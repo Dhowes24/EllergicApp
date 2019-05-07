@@ -9,14 +9,24 @@ import {
     Modal
 } from "react-native";
 
-import gql from 'graphql-tag';
-
-
 import {Camera, Permissions, BarCodeScanner} from 'expo';
+
+/**
+ * GraphQL imports
+ */
 import AWSAppSyncClient from "aws-appsync";
 import aws_config from "../aws-exports";
-
+import gql from 'graphql-tag';
 import {connect} from 'react-redux';
+import {getWatchList} from "../src/graphql/queries";
+
+
+/**
+ * redux Imports
+ */
+import {addAllerginList, removeAllergins} from "../actions/AllerginActions";
+import {bindActionCreators} from "redux";
+import {editList} from "../actions/ListActions";
 
 //Nutrionix APP ID
 const appID = 'e8fe8164';
@@ -27,8 +37,6 @@ const applicationKey = '170920103c84249a7b142300794e3058';
 //Current List of Product data
 let ingredientList = [];
 
-//Allergins to look for list
-let allerginsList = [];
 
 
 const client = new AWSAppSyncClient({
@@ -50,6 +58,7 @@ class ScannerScreen extends Component {
     state = {
         positiveModalVisible: false,
         negativeModalVisible: false,
+        allerginsFound:[],
 
         hasCameraPermission: null,
         type: Camera.Constants.Type.back,
@@ -68,7 +77,62 @@ class ScannerScreen extends Component {
         this.setState({hasCameraPermission: status === 'granted'});
         //For each active list in WatchListScreen, add all non repetitive allergins to 'allerginsList'
         //
+        for (let i = 0; i < this.props.user.watchlists.length; i++) {
+            (async () => {
+                const result = await client.query({
+                    query: gql(getWatchList),
+                    variables: {
+                        id: this.props.user.watchlists[i],
+
+                    },
+                    fetchPolicy: 'network-only'
+                });
+                if(result.data.getWatchList.Toggle){
+                    let seperatedItems = result.data.getWatchList.list.split(",");
+                    this.props.addAllerginList(seperatedItems);
+                    console.log(this.props.allergins.allergins)
+                }
+            })();
+        }
     }
+
+    handleBarCodeScanned = () => {
+        //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        fetch("https://api.nutritionix.com/v1_1/item?upc=52200004265&appId=" + appID + "&appKey=" + applicationKey)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                //alert(responseJson.nf_ingredient_statement);
+                this.handleIngredientData(responseJson.nf_ingredient_statement);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    handleIngredientData = (data) => {
+        let warning =false;
+        let allerginsFound =[];
+        ingredientList = data.split(',');
+        let allerginsList = this.props.allergins.allergins;
+        console.log(ingredientList);
+        console.log(allerginsList);
+        for (let i = 0; i < ingredientList.length; i++) {
+            for (let a = 0; a < allerginsList.length; a++) {
+                if (ingredientList[i].includes(allerginsList[a])) {
+                    warning =true;
+                    allerginsFound.push(allerginsList[a])
+                }
+            }
+        }
+        this.setState({allerginsFound:allerginsFound});
+        if(!warning) {
+            this.setPositiveModalVisible(true);
+        } else{
+            this.setNegativeModalVisible(true);
+        }
+    };
+
+
 
     render() {
         return (
@@ -122,6 +186,9 @@ class ScannerScreen extends Component {
                             <Text style={styles.negativeModalText}>
                                 This Contains ...
                             </Text>
+                            <Text style={styles.negativeModalText}>
+                                {this.state.allerginsFound}
+                            </Text>
                         </TouchableOpacity>
                         <Image source={require('../assets/WatchOut-E-llergic.png')}
                                style={styles.notClear}/>
@@ -165,8 +232,7 @@ class ScannerScreen extends Component {
 
                 <TouchableOpacity
                     onPress={() => {
-                        this.setNegativeModalVisible(true);
-                        //this.setPositiveModalVisible(true);
+                        this.handleBarCodeScanned()
                     }}>
                     <Image source={require('../assets/MainPageLogo-E-llergic.png')} //Home Logo
                            style={styles.LogoStyle}/>
@@ -176,48 +242,23 @@ class ScannerScreen extends Component {
         )
     }
 
-    handleBarCodeScanned = () => {
-        //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-        fetch("https://api.nutritionix.com/v1_1/item?upc=52200004265&appId=" + appID + "&appKey=" + applicationKey)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                alert(responseJson.nf_ingredient_statement);
-                this.handleIngredientData(responseJson.nf_ingredient_statement);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
-    handleIngredientData = (data) => {
-        ingredientList = data.split(',');
-        alert(ingredientList.length);
-        for (let i = 0; i < ingredientList.length; i++)
-            for (let a = 0; a < allerginsList.length; a++) {
-                if (ingredientList[i].includes(allerginsList[a])) {
-                    this.setState({
-                        warningNeeded: true,
-                        allerginsFound: this.state.allerginsFound.push(allerginsList[a])
-                    });
-                }
-            }
-        //TODO
-        //Function that calls a modal depending on whether 'warningNeeded' is Positive or False
-    };
-
-    testRedux = () => {
-        alert(this.props.user.watchlists.length)
-    };
-
 
 }
 
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        editList,
+        addAllerginList,
+        removeAllergins,
+    }, dispatch)
+);
+
 const mapStateToProps = (state) => {
-    const {user} = state;
-    return {user}
+    const {user,allergins} = state;
+    return {user,allergins}
 };
 
-export default connect(mapStateToProps)(ScannerScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ScannerScreen);
 
 const styles = StyleSheet.create({
     //Header Styles
