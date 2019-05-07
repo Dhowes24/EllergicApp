@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
 const USER_STATE = {
-    ID: "TestID",
+    ID: "",
     watchlists: [],
     grocerylists: [],
 };
@@ -9,6 +9,8 @@ const USER_STATE = {
 const LIST_STATE = {
     ListName: "",
     listItems: [],
+    ID:"",
+    Create: false,
 };
 
 const userReducer = (state = USER_STATE, action) => {
@@ -22,7 +24,7 @@ const userReducer = (state = USER_STATE, action) => {
     switch (action.type) {
         case 'ADD_WATCHLIST':
 
-            const newWatchlist = action.payload;
+            const newWatchlist = action.payload.watchlists;
 
             watchlists.push(newWatchlist);
 
@@ -65,17 +67,24 @@ const ListReducer = (state = LIST_STATE, action) => {
 
     let {
         ListName,
-        listItems
+        listItems,
+        ID,
+        Create
     } = state;
 
     switch (action.type) {
         case 'EDIT_LIST':
             ListName = action.payload.ListName;
             listItems = action.payload.List;
+            ID = action.payload.ID;
+            Create = action.payload.Create;
+
 
             let newState = {
                 ListName,
-                listItems
+                listItems,
+                ID,
+                Create
             };
             return newState;
 

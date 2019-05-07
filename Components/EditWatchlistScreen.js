@@ -18,16 +18,29 @@ import ListItemCard from "./ListItemCard";
 /**
  * Graphql Imports
  */
-import {createWatchList} from "../src/graphql/mutations";
 import gql from "graphql-tag";
-import {getUser} from "../src/graphql/queries";
+import {createWatchList, updateWatchList, updateUser} from "../src/graphql/mutations"
+import AWSAppSyncClient from "aws-appsync";
+import aws_config from "../aws-exports";
 
 /**
  * Redux Imports
  */
 import {connect} from "react-redux";
 import Video from "expo/build/av/Video";
+import {bindActionCreators} from "redux";
+import {editList} from "../actions/ListActions";
+import {addWatchlist} from "../actions/UserActions";
 
+
+const client = new AWSAppSyncClient({
+    url: aws_config.aws_appsync_graphqlEndpoint,
+    region: aws_config.aws_appsync_region,
+    auth: {
+        type: aws_config.aws_appsync_authenticationType,
+        apiKey: aws_config.aws_appsync_apiKey,
+    }
+});
 
 class EditWatchListScreen extends Component {
 
@@ -37,10 +50,15 @@ class EditWatchListScreen extends Component {
 
     state = {
         newItem: "",
-        id: this.props.list.ListName,
+        newWatchlistID: "",
+        ID: this.props.list.ID,
+        name: this.props.list.ListName,
         listItems: this.props.list.listItems
     };
 
+    componentDidMount() {
+        //alert(this.state.listItems)
+    }
 
     allergyEntrySubmit = () => {
         if (this.state.newItem != "") {
@@ -51,20 +69,69 @@ class EditWatchListScreen extends Component {
             this.setState({listItems: stateList});
             this.AllergyEntry.clear();
         }
-
     };
 
     donePressed = () => {
-        let stateList = this.state.listItems;
-        let listString="";
-        for (let i =0;i<stateList.length;i++){
-            listString +=stateList[i].ListItem;
-            if(i!=stateList.length-1){
-                listString+=','
+        if (this.state.name != "" || this.state.name!=null) {
+            let stateList = this.state.listItems;
+            let listString = "";
+            for (let i = 0; i < stateList.length; i++) {
+                listString += stateList[i].ListItem;
+                if (i != stateList.length - 1) {
+                    listString += ','
+                }
             }
+            if (!this.props.list.Create) {
+                (async () => {
+                    const result = await client.mutate({
+                        mutation: gql(updateWatchList),
+                        variables: {
+                            input: {
+                                id: this.state.ID,
+                                name: this.state.name,
+                                Toggle: false,
+                                list: listString
+                            }
+                        }
+                    });
+                })();
+            } else if (this.props.list.Create) {
+                (async () => {
+                    const newWatchlist = await client.mutate({
+                        mutation: gql(createWatchList),
+                        variables: {
+                            input: {
+                                name: this.state.name,
+                                Toggle: false,
+                                list: listString
+                            }
+                        }
+                    });
+                    this.setState({newWatchlistID: newWatchlist.data.createWatchList.id});
+                    this.props.addWatchlist({
+                        watchlists: this.state.newWatchlistID
+                    });
+                    console.log(this.props.user);
+
+                    (async () => {
+                        await client.mutate({
+                            mutation: gql(updateUser),
+                            variables: {
+                                input: {
+                                    username: this.props.user.ID,
+                                    watchlists: this.props.user.watchlists,
+
+                                }
+                            }
+                        });
+
+                    })();
+                })();
+
+
+            }
+            this.props.navigation.navigate('WatchListScreen')
         }
-        alert(listString);
-        this.props.navigation.navigate('WatchListScreen')
 
 
     };
@@ -160,12 +227,16 @@ class EditWatchListScreen extends Component {
                     </View>
 
                     <View style={styles.nameInputView}>
-                        {this.state.id != null && <TextInput placeholderTextColor={'black'}
-                                                             placeholder={this.state.id}
-                                                             style={styles.textInputStyle}/>}
-                        {this.state.id == null && <TextInput placeholderTextColor={'lightgrey'}
-                                                             placeholder="Name your Watch List"
-                                                             style={styles.textInputStyle}/>}
+                        {this.state.name != null && <TextInput placeholderTextColor={'black'}
+                                                               placeholder={this.state.name}
+                                                               style={styles.textInputStyle}
+                                                               onChangeText={(name) => this.setState({name: name})}
+
+                        />}
+                        {this.state.name == null && <TextInput placeholderTextColor={'lightgrey'}
+                                                               placeholder="Name your Watch List"
+                                                               style={styles.textInputStyle}
+                                                               onChangeText={(name) => this.setState({name: name})}/>}
                     </View>
 
                     <View style={styles.allergyInputContainer}>
@@ -179,7 +250,7 @@ class EditWatchListScreen extends Component {
                                        style={styles.textInputStyle}
                             />
                         </View>
-                        <TouchableOpacity onPress={() =>{
+                        <TouchableOpacity onPress={() => {
                             this.allergyEntrySubmit()
                         }}>
                             <Image source={require('../assets/SubmitButton.png')}
@@ -216,12 +287,18 @@ class EditWatchListScreen extends Component {
     }
 }
 
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        addWatchlist,
+        editList
+    }, dispatch)
+);
 const mapStateToProps = (state) => {
-    const {list} = state;
-    return {list}
+    const {list, user} = state;
+    return {list, user}
 };
 
-export default connect(mapStateToProps)(EditWatchListScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(EditWatchListScreen);
 
 
 const styles = StyleSheet.create({

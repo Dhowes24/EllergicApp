@@ -75,6 +75,7 @@ class WatchListScreen extends Component {
                     let obj = {};
                     obj["List"] = result.data.getWatchList.list;
                     obj["ListName"] = result.data.getWatchList.name;
+                    obj["ID"] = this.props.user.watchlists[i];
 
                     watchlistData.push(obj);
                     if(watchlistData.length == this.props.user.watchlists.length){
@@ -83,6 +84,13 @@ class WatchListScreen extends Component {
                 })();
             }
     }
+
+
+    createButtonPressed = () =>{
+            this.props.editList({ListName:null ,List:[], ID:"", Create:true});
+            this.props.navigation.navigate('EditWatchListScreen');
+
+    };
 
     render() {
         return (
@@ -112,6 +120,7 @@ class WatchListScreen extends Component {
                         renderItem={({item}) => (
                             <WatchListCards ListName={item.ListName}
                                             List= {item.List}
+                                            ID={item.ID}
                                             state={this.state}
                                             navigateTo={this.props.navigation.navigate.bind(this)}/>
                         )}
@@ -125,8 +134,7 @@ class WatchListScreen extends Component {
                 <View style={styles.createContainerStyle}>
                     <TouchableOpacity style={styles.bottomButtonStyle}
                                       onPress={()=>{
-                                          this.props.editList({ListName:null, List:null});
-                                          this.props.navigation.navigate('EditWatchListScreen')}}>
+                                          this.createButtonPressed()}}>
                         <Text style={styles.ButtonTextStyle}>
                             Create Watchlist
                         </Text>

@@ -21,6 +21,7 @@ class WatchListCards extends Component {
     }
 
     state = {
+        ID: this.props.ID,
         name: this.props.ListName,
         list: this.props.List,
         ellipseToggle: false,
@@ -28,29 +29,27 @@ class WatchListCards extends Component {
     };
 
     navigateTo(page){
-
         this.props.navigateTo(page)
     }
 
     listItems(column){
-        let splitList = this.state.list.split(", ");
+        let splitList = this.state.list.split(",");
         let outputList=[];
         for (let i = column; i<splitList.length;i+=3){
-            console.log(i);
             outputList.push(splitList[i] +"\n")
         }
         return outputList
     };
 
     editButtonPressed = () =>{
-        let seperatedItems = this.state.list.split(", ");
+        let seperatedItems = this.state.list.split(",");
         let stateList = [];
         for (let i = 0; i < seperatedItems.length; i++) {
             let obj = {};
             obj["ListItem"] = seperatedItems[i];
             stateList.push(obj)
         }
-        this.props.editList({ListName:this.state.name , List:stateList});
+        this.props.editList({ListName:this.state.name , List:stateList, ID:this.state.ID, Create:false});
         this.navigateTo('EditWatchListScreen');
     };
 
