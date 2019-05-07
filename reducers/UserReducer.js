@@ -9,8 +9,12 @@ const USER_STATE = {
 const LIST_STATE = {
     ListName: "",
     listItems: [],
-    ID:"",
+    ID: "",
     Create: false,
+};
+
+const WATCH_FOR_STATE = {
+    allergins: []
 };
 
 const userReducer = (state = USER_STATE, action) => {
@@ -93,7 +97,37 @@ const ListReducer = (state = LIST_STATE, action) => {
     }
 };
 
+const allerginReducer = (state = WATCH_FOR_STATE, action) => {
+    let {allergins} = state;
+
+    switch (action.type) {
+        case 'ADD_WATCHLIST_ALLERGINS':
+            let newList = action.payload;
+            for (let i = 0; i < newList.length; i++) {
+                if(!allergins.includes(newList[i])){
+                    allergins.push(newList[i])
+                }
+            }
+            let newState ={allergins};
+
+            return newState;
+
+        case 'REMOVE_WATCHLIST_ALLERGINS':
+             newList =[];
+             allergins = newList;
+
+             newState = {allergins};
+
+             return newState;
+
+        default:
+            return state;
+    }
+
+};
+
 export default combineReducers({
     user: userReducer,
-    list:ListReducer
+    list: ListReducer,
+    allergins: allerginReducer
 });

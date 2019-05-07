@@ -73,9 +73,11 @@ class WatchListScreen extends Component {
                         fetchPolicy: 'network-only'
                     });
                     let obj = {};
+                    console.log(result);
                     obj["List"] = result.data.getWatchList.list;
                     obj["ListName"] = result.data.getWatchList.name;
                     obj["ID"] = this.props.user.watchlists[i];
+                    obj["Toggle"] = result.data.getWatchList.Toggle;
 
                     watchlistData.push(obj);
                     if(watchlistData.length == this.props.user.watchlists.length){
@@ -122,6 +124,7 @@ class WatchListScreen extends Component {
                                             List= {item.List}
                                             ID={item.ID}
                                             state={this.state}
+                                            Toggle={item.Toggle}
                                             navigateTo={this.props.navigation.navigate.bind(this)}/>
                         )}
                         keyExtractor={item => item.ListName}

@@ -8,11 +8,34 @@ import {
     TouchableHighlight
 } from "react-native";
 
-
 import {Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon} from "native-base";
+
+/**
+ * redux Imports
+ */
 import {bindActionCreators} from "redux";
 import {editList} from "../actions/ListActions";
+import {addAllerginList, removeAllergins} from "../actions/AllerginActions";
 import {connect} from "react-redux";
+
+/**
+ * GraphQL imports
+ */
+import gql from "graphql-tag";
+import {getWatchList} from "../src/graphql/queries";
+import {updateWatchList} from "../src/graphql/mutations";
+import AWSAppSyncClient from "aws-appsync";
+import aws_config from "../aws-exports";
+
+const client = new AWSAppSyncClient({
+    url: aws_config.aws_appsync_graphqlEndpoint,
+    region: aws_config.aws_appsync_region,
+    auth: {
+        type: aws_config.aws_appsync_authenticationType,
+        apiKey: aws_config.aws_appsync_apiKey,
+    }
+});
+
 
 class WatchListCards extends Component {
 
@@ -25,7 +48,7 @@ class WatchListCards extends Component {
         name: this.props.ListName,
         list: this.props.List,
         ellipseToggle: false,
-        checkToggle: false
+        checkToggle: this.props.Toggle
     };
 
     navigateTo(page){
@@ -49,8 +72,64 @@ class WatchListCards extends Component {
             obj["ListItem"] = seperatedItems[i];
             stateList.push(obj)
         }
-        this.props.editList({ListName:this.state.name , List:stateList, ID:this.state.ID, Create:false});
+        this.props.editList({ListName:this.state.name, List:stateList, ID:this.state.ID, Create:false});
         this.navigateTo('EditWatchListScreen');
+    };
+
+    toggleTouched = () =>{
+        this.setState({checkToggle:!this.state.checkToggle});
+
+        if(this.state.checkToggle){
+            (async () => {
+                await client.mutate({
+                    mutation: gql(updateWatchList),
+                    variables: {
+                        input: {
+                            id: this.state.ID,
+                            Toggle: this.state.checkToggle,
+                        }
+                    }
+                });
+                let seperatedItems = this.state.list.split(",");
+                this.props.addAllerginList(seperatedItems);
+                console.log("on");
+                console.log(this.props.allergins.allergins)
+            })();
+
+        }
+        else{
+            (async () => {
+                await client.mutate({
+                    mutation: gql(updateWatchList),
+                    variables: {
+                        input: {
+                            id: this.state.ID,
+                            Toggle: this.state.checkToggle,
+                        }
+                    }
+                });
+                this.props.removeAllergins();
+                for (let i = 0; i < this.props.user.watchlists.length; i++) {
+                    (async () => {
+                        const result = await client.query({
+                            query: gql(getWatchList),
+                            variables: {
+                                id: this.props.user.watchlists[i],
+
+                            },
+                            fetchPolicy: 'network-only'
+                        });
+                        if(result.data.getWatchList.Toggle){
+                            let seperatedItems = result.data.getWatchList.list.split(",");
+                            this.props.addAllerginList(seperatedItems);
+                            console.log("off");
+                            console.log(this.props.allergins.allergins)
+                        }
+                    })();
+                }
+            })();
+
+        }
     };
 
     render() {
@@ -80,13 +159,13 @@ class WatchListCards extends Component {
 
                     <TouchableHighlight
                         onPress={() => {
-                            this.setState({checkToggle: !this.state.checkToggle})
+                            this.toggleTouched()
                         }}
                         style={styles.downloadStyle}
                         underlayColor={'white'}>
                         <Image source={this.state.checkToggle ?
-                            require('../assets/DownloadedButton-E-llergic.png')
-                            : require('../assets/DownloadButton-E-llergic.png')}
+                            require('../assets/ToggleNegative.png')
+                            : require('../assets/TogglePositive-E-llergic.png')}
                                style={styles.downloadImageStyle}/>
                     </TouchableHighlight>
 
@@ -126,12 +205,14 @@ class WatchListCards extends Component {
 
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
-        editList
+        editList,
+        addAllerginList,
+        removeAllergins,
     }, dispatch)
 );
 const mapStateToProps = (state) => {
-    const { list } = state;
-    return { list }
+    const { list,allergins,user } = state;
+    return { list, allergins, user }
 };
 
 export default connect (mapStateToProps,mapDispatchToProps)(WatchListCards);
