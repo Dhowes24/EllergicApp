@@ -7,9 +7,33 @@ import {
     TouchableOpacity,
     TouchableHighlight
 } from "react-native";
+import {Card, CardItem} from "native-base";
 
+/**
+ * Redux Imports
+ */
+import {bindActionCreators} from "redux";
+import {editList} from "../actions/ListActions";
+import {reduxUpdateUser} from "../actions/UserActions";
+import {addWatchlist} from "../actions/UserActions";
+import {connect} from "react-redux";
 
-import {Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon} from "native-base";
+/**
+ * GraphQL Imports
+ */
+import gql from "graphql-tag";
+import {createWatchList, updateUser} from "../src/graphql/mutations";
+import AWSAppSyncClient from "aws-appsync";
+import aws_config from "../aws-exports";
+
+const client = new AWSAppSyncClient({
+    url: aws_config.aws_appsync_graphqlEndpoint,
+    region: aws_config.aws_appsync_region,
+    auth: {
+        type: aws_config.aws_appsync_authenticationType,
+        apiKey: aws_config.aws_appsync_apiKey,
+    }
+});
 
 class DownloadListsCard extends Component {
 
@@ -29,13 +53,51 @@ class DownloadListsCard extends Component {
         this.props.removeFunc(Name)
     };
 
-    listItems(column){
+    listItems(column) {
         let splitList = this.state.list.split(",");
-        let outputList=[];
-        for (let i = column; i<splitList.length;i+=3){
-            outputList.push(splitList[i] +"\n")
+        let outputList = [];
+        for (let i = column; i < splitList.length; i += 3) {
+            outputList.push(splitList[i] + "\n")
         }
         return outputList
+    };
+
+    downloadList = () => {
+        if (!this.state.downloadToggle) {
+            this.setState({downloadToggle: true});
+
+
+        (async () => {
+            const newWatchlist = await client.mutate({
+                mutation: gql(createWatchList),
+                variables: {
+                    input: {
+                        name: this.props.ListName,
+                        Toggle: false,
+                        list: this.props.List
+                    }
+                }
+            });
+            this.props.addWatchlist({
+                watchlists: newWatchlist.data.createWatchList.id
+            });
+            console.log(this.props.user);
+
+            (async () => {
+                await client.mutate({
+                    mutation: gql(updateUser),
+                    variables: {
+                        input: {
+                            username: this.props.user.ID,
+                            watchlists: this.props.user.watchlists,
+
+                        }
+                    }
+                });
+
+            })();
+        })();
+    }
     };
 
     render() {
@@ -45,10 +107,10 @@ class DownloadListsCard extends Component {
 
                 <CardItem style={styles.CardStyle}>
                     <View style={styles.textBoxStyle}>
-                    <Text adjustsFontSizeToFit={true}
-                        style={styles.nameText}>
-                        {this.state.name}
-                    </Text>
+                        <Text adjustsFontSizeToFit={true}
+                              style={styles.nameText}>
+                            {this.state.name}
+                        </Text>
                     </View>
 
                     <TouchableHighlight
@@ -65,7 +127,7 @@ class DownloadListsCard extends Component {
 
                     <TouchableHighlight
                         onPress={() => {
-                            this.setState({downloadToggle: !this.state.downloadToggle})
+                            this.downloadList();
                         }}
                         style={styles.downloadStyle}
                         underlayColor={'white'}>
@@ -100,7 +162,20 @@ class DownloadListsCard extends Component {
 
 }
 
-export default DownloadListsCard;
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        editList,
+        reduxUpdateUser,
+        addWatchlist
+    }, dispatch)
+);
+
+const mapStateToProps = (state) => {
+    const {list, user} = state;
+    return {list, user}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadListsCard);
 
 const styles = StyleSheet.create({
 
@@ -121,9 +196,9 @@ const styles = StyleSheet.create({
         width: 66,
         height: 19,
     },
-    downloadStyle:{
-      width:25,
-        height:25
+    downloadStyle: {
+        width: 25,
+        height: 25
     },
     barStyle: {
         height: '30%',
@@ -135,7 +210,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%'
     },
-    downloadImageStyle:{
+    downloadImageStyle: {
         width: '100%',
         height: '100%'
     },

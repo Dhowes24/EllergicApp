@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="66f8712b-cc13-4ce5-85ab-f818b77cf6d7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Components/DownloadFriendListScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/DownloadFriendListScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Components/DownloadListsCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/DownloadListsCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Components/FriendCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/FriendCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Components/FriendsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/Components/FriendsScreen.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/node_modules/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -64,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Components/DownloadFriendListScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="111" column="29" lean-forward="true" selection-start-line="111" selection-start-column="29" selection-end-line="111" selection-end-column="29" />
+            <state relative-caret-position="290">
+              <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="e#275#316#0" expanded="true" />
@@ -79,10 +76,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Components/DownloadListsCard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="88" column="27" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
+            <state relative-caret-position="260">
+              <caret line="116" column="48" selection-start-line="116" selection-start-column="48" selection-end-line="116" selection-end-column="48" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#190#231#0" expanded="true" />
+                <element signature="e#389#419#0" expanded="true" />
+                <element signature="e#2711#3532#0" />
               </folding>
             </state>
           </provider>
@@ -103,6 +103,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/reducers/UserReducer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="637">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Components/WatchListCards.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="139">
@@ -110,6 +119,20 @@
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="e#279#320#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Components/EditWatchlistScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret line="94" column="25" lean-forward="true" selection-start-line="94" selection-start-column="25" selection-end-line="94" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#312#342#0" expanded="true" />
+                <element signature="e#540#576#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -214,12 +237,6 @@
               <item name="EllergicApp" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="EllergicApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EllergicApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="graphql" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -260,12 +277,12 @@
       <workItem from="1556388100101" duration="10990000" />
       <workItem from="1556542968054" duration="9746000" />
       <workItem from="1556594890936" duration="89099000" />
-      <workItem from="1557285574677" duration="10282000" />
+      <workItem from="1557285574677" duration="11925000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128363000" />
+    <option name="totallyTimeSpent" value="130006000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -413,18 +430,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Components/EditWatchlistScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1072">
-          <caret line="115" selection-start-line="115" selection-end-line="127" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <element signature="e#312#342#0" expanded="true" />
-            <element signature="e#540#576#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/actions/UserActions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -495,13 +500,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reducers/UserReducer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-119">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Components/FriendCard.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="269">
@@ -511,19 +509,6 @@
             <element signature="e#238#286#0" expanded="true" />
             <element signature="e#450#497#0" expanded="true" />
             <element signature="e#2497#3100#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Components/DownloadFriendListScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="111" column="29" lean-forward="true" selection-start-line="111" selection-start-column="29" selection-end-line="111" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <element signature="e#275#316#0" expanded="true" />
-            <element signature="e#433#463#0" expanded="true" />
-            <element signature="e#2610#4034#0" />
           </folding>
         </state>
       </provider>
@@ -539,12 +524,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Components/DownloadListsCard.js">
+    <entry file="file://$PROJECT_DIR$/Components/DownloadFriendListScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="88" column="27" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
+        <state relative-caret-position="290">
+          <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#275#316#0" expanded="true" />
+            <element signature="e#433#463#0" expanded="true" />
+            <element signature="e#2610#4034#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Components/EditWatchlistScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="94" column="25" lean-forward="true" selection-start-line="94" selection-start-column="25" selection-end-line="94" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#312#342#0" expanded="true" />
+            <element signature="e#540#576#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reducers/UserReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="637">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Components/DownloadListsCard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="116" column="48" selection-start-line="116" selection-start-column="48" selection-end-line="116" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#190#231#0" expanded="true" />
+            <element signature="e#389#419#0" expanded="true" />
+            <element signature="e#2711#3532#0" />
           </folding>
         </state>
       </provider>
