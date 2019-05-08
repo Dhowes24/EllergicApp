@@ -77,22 +77,23 @@ class ScannerScreen extends Component {
         this.setState({hasCameraPermission: status === 'granted'});
         //For each active list in WatchListScreen, add all non repetitive allergins to 'allerginsList'
         //
-        for (let i = 0; i < this.props.user.watchlists.length; i++) {
-            (async () => {
-                const result = await client.query({
-                    query: gql(getWatchList),
-                    variables: {
-                        id: this.props.user.watchlists[i],
+        if(this.props.user.watchlists!=null) {
+            for (let i = 0; i < this.props.user.watchlists.length; i++) {
+                (async () => {
+                    const result = await client.query({
+                        query: gql(getWatchList),
+                        variables: {
+                            id: this.props.user.watchlists[i],
 
-                    },
-                    fetchPolicy: 'network-only'
-                });
-                if(result.data.getWatchList.Toggle){
-                    let seperatedItems = result.data.getWatchList.list.split(",");
-                    this.props.addAllerginList(seperatedItems);
-                    console.log(this.props.allergins.allergins)
-                }
-            })();
+                        },
+                        fetchPolicy: 'network-only'
+                    });
+                    if (result.data.getWatchList.Toggle) {
+                        let seperatedItems = result.data.getWatchList.list.split(",");
+                        this.props.addAllerginList(seperatedItems);
+                    }
+                })();
+            }
         }
     }
 
@@ -145,8 +146,7 @@ class ScannerScreen extends Component {
                     animationType="slide"
                     transparent={true}
                     visible={this.state.positiveModalVisible}
-                    onRequestClose={() => {
-                        alert("Modal Closed")
+                    onRequestClose={() => {this.setPositiveModalVisible(false)
                     }}>
                     <View style={styles.positiveModal}>
 
@@ -172,8 +172,7 @@ class ScannerScreen extends Component {
                     animationType="slide"
                     transparent={true}
                     visible={this.state.negativeModalVisible}
-                    onRequestClose={() => {
-                        alert("Modal Closed")
+                    onRequestClose={() => {this.setNegativeModalVisible(false)
                     }}>
                     <View style={styles.negativeModal}>
 

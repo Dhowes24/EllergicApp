@@ -60,9 +60,9 @@ class WatchListScreen extends Component {
     };
 
 
-    //TODO
     componentDidMount(){
         let watchlistData = [];
+        if(this.props.user.watchlists!=null) {
             for (let i = 0; i < this.props.user.watchlists.length; i++) {
                 (async () => {
                     const result = await client.query({
@@ -80,11 +80,12 @@ class WatchListScreen extends Component {
                     obj["Toggle"] = result.data.getWatchList.Toggle;
 
                     watchlistData.push(obj);
-                    if(watchlistData.length == this.props.user.watchlists.length){
-                        this.setState({realData:watchlistData})
+                    if (watchlistData.length == this.props.user.watchlists.length) {
+                        this.setState({realData: watchlistData})
                     }
                 })();
             }
+        }
     }
 
 

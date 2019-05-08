@@ -10,7 +10,7 @@ export const removeWatchlist = WatchlistID => (
         payload: WatchlistID,
     }
 );
-export const updateUser = User => (
+export const reduxUpdateUser = User => (
     {
         type: 'UPDATE_USER',
         payload: User,

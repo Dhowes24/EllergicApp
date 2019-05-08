@@ -30,6 +30,7 @@ export const getUser = `query GetUser($username: String!) {
     password
     watchlists
     grocerylists
+    friendslist
   }
 }
 `;
@@ -44,6 +45,7 @@ export const listUsers = `query ListUsers(
       password
       watchlists
       grocerylists
+      friendslist
     }
     nextToken
   }

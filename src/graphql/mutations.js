@@ -31,6 +31,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     password
     watchlists
     grocerylists
+    friendslist
   }
 }
 `;
@@ -40,6 +41,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     password
     watchlists
     grocerylists
+    friendslist
   }
 }
 `;
@@ -49,6 +51,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
     password
     watchlists
     grocerylists
+    friendslist
   }
 }
 `;

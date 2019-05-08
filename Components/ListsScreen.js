@@ -68,15 +68,15 @@ class ListsScreen extends Component {
                                style={styles.subBar}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                        // onPress={()=>{this.props.navigation.navigate('SettingsScreen')}}
-                    >
-                        <Text style={styles.subText}>
-                            Substitute Search
-                        </Text>
-                        <Image source={require('../assets/DarkSinnyBar-E-llergic.png')}
-                               style={styles.subBar}/>
-                    </TouchableOpacity>
+                    {/*<TouchableOpacity*/}
+                        {/*// onPress={()=>{this.props.navigation.navigate('SettingsScreen')}}*/}
+                    {/*>*/}
+                        {/*<Text style={styles.subText}>*/}
+                            {/*Substitute Search*/}
+                        {/*</Text>*/}
+                        {/*<Image source={require('../assets/DarkSinnyBar-E-llergic.png')}*/}
+                               {/*style={styles.subBar}/>*/}
+                    {/*</TouchableOpacity>*/}
 
                 </View>
 

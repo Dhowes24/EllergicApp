@@ -4,6 +4,7 @@ const USER_STATE = {
     ID: "",
     watchlists: [],
     grocerylists: [],
+    friendslist: [],
 };
 
 const LIST_STATE = {
@@ -22,20 +23,23 @@ const userReducer = (state = USER_STATE, action) => {
     let {
         ID,
         watchlists,
-        grocerylists
+        grocerylists,
+        friendslist
     } = state;
 
     switch (action.type) {
         case 'ADD_WATCHLIST':
 
             const newWatchlist = action.payload.watchlists;
+            alert(newWatchlist);
 
             watchlists.push(newWatchlist);
 
             let newState = {
                 ID,
                 watchlists,
-                grocerylists
+                grocerylists,
+                friendslist
             };
             return newState;
         case 'REMOVE_WATCHLIST':
@@ -47,7 +51,8 @@ const userReducer = (state = USER_STATE, action) => {
             newState = {
                 ID,
                 watchlists,
-                grocerylists
+                grocerylists,
+                friendslist
             };
             return newState;
         case "UPDATE_USER":
@@ -55,11 +60,13 @@ const userReducer = (state = USER_STATE, action) => {
             ID = action.payload.username;
             watchlists = action.payload.watchlists;
             grocerylists = action.payload.grocerylists;
+            friendslist = action.payload.friendslist;
 
             newState = {
                 ID,
                 watchlists,
-                grocerylists
+                grocerylists,
+                friendslist
             };
             return newState;
         default:

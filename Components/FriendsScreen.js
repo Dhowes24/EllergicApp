@@ -8,10 +8,38 @@ import {
     ImageBackground,
     Image,
     ActivityIndicator,
-    TouchableOpacity,
+    TouchableOpacity, TextInput, KeyboardAvoidingView,
 } from "react-native";
 import FriendCard from "./FriendCard";
 
+
+/**
+ * redux imports
+ */
+import {bindActionCreators} from "redux";
+import {reduxUpdateUser} from "../actions/UserActions";
+import {addAllerginList, removeAllergins} from "../actions/AllerginActions";
+import {connect} from "react-redux";
+
+
+/**
+ * GraphQL imports
+ */
+import gql from "graphql-tag";
+import {getUser, getWatchList} from "../src/graphql/queries";
+import AWSAppSyncClient from "aws-appsync";
+import aws_config from "../aws-exports";
+import {updateUser} from "../src/graphql/mutations";
+
+
+const client = new AWSAppSyncClient({
+    url: aws_config.aws_appsync_graphqlEndpoint,
+    region: aws_config.aws_appsync_region,
+    auth: {
+        type: aws_config.aws_appsync_authenticationType,
+        apiKey: aws_config.aws_appsync_apiKey,
+    }
+});
 
 class FriendsScreen extends Component {
 
@@ -20,7 +48,8 @@ class FriendsScreen extends Component {
     };
 
     state = {
-        testFriendData: [{FriendName: 'David Steinberg'}, {FriendName: 'Alex Sheer'}, {FriendName: 'Alexm Sheer'}],
+        FriendData: [],
+        friendUsername: "",
     };
 
     renderFooter = () => {
@@ -32,9 +61,79 @@ class FriendsScreen extends Component {
         )
     };
 
+    componentDidMount() {
+        let localFriendData = this.state.FriendData;
+        console.log(this.props.user);
+        for (let i = 0; i < this.props.user.friendslist.length; i++) {
+            (async () => {
+                const result = await client.query({
+                    query: gql(getUser),
+                    variables: {
+                        username: this.props.user.friendslist[i],
+
+                    },
+                    fetchPolicy: 'network-only'
+                });
+                if (result.data.getUser.username != null) {
+
+                    let obj = {};
+                    obj["FriendName"] = result.data.getUser.username;
+                    localFriendData.push(obj);
+                }
+                console.log(this.state.FriendData)
+            })();
+        }
+    }
+
+    friendEntrySubmit = () => {
+        let localFriendData = this.state.FriendData;
+        (async () => {
+            const result = await client.query({
+                query: gql(getUser),
+                variables: {
+                    username: this.state.friendUsername,
+
+                },
+                fetchPolicy: 'network-only'
+            });
+            if (result.data.getUser.username != null) {
+                console.log(result);
+
+                let obj = {};
+                obj["FriendName"] = result.data.getUser.username;
+                localFriendData.push(obj);
+                this.setState({FriendData:localFriendData});
+
+                let storedData = this.props.user.friendslist;
+                storedData.push(result.data.getUser.username);
+                console.log(storedData);
+                this.props.reduxUpdateUser({
+                    username: this.props.user.ID,
+                    friendslist: storedData,
+                });
+
+                (async () => {
+                    await client.mutate({
+                        mutation: gql(updateUser),
+                        variables: {
+                            input: {
+                                username: this.props.user.ID,
+                                friendslist: storedData,
+                            }
+                        }
+                    });
+                })();
+            }
+        })();
+        this.NameEntry.clear();
+
+    };
+
     removeFriend(Name) {
         let arrCopy = this.state.testFriendData.slice();
-        let index = arrCopy.map(function(e) { return e.FriendName; }).indexOf(Name);
+        let index = arrCopy.map(function (e) {
+            return e.FriendName;
+        }).indexOf(Name);
 
         let removed = arrCopy.splice(index, 1);
         this.setState({testFriendData: arrCopy});
@@ -49,14 +148,18 @@ class FriendsScreen extends Component {
                 {/* Header */}
                 <View style={styles.headerStyle}>
                     <TouchableOpacity style={styles.leftNavigationArrow}
-                                      onPress={() => {this.props.navigation.navigate('AccountScreen')}}
+                                      onPress={() => {
+                                          this.props.navigation.navigate('AccountScreen')
+                                      }}
                     >
                         <Image source={require('../assets/BackArrow-E-llergic.png')} // List Button
                                style={styles.arrowStyle}/>
                         <Text style={styles.navigationText}> Accounts</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => {this.props.navigation.navigate('DownloadFriendListScreen')}}
+                        onPress={() => {
+                            this.props.navigation.navigate('DownloadFriendListScreen')
+                        }}
                     >
                         <Image source={require('../assets/FriendsLogo-E-llergic.png')} //Home Logo
                                style={styles.LogoStyle}/>
@@ -73,7 +176,7 @@ class FriendsScreen extends Component {
                     <Image source={require('../assets/ThiccLiteBar-E-llergic.png')}
                            style={styles.titleBar}/>
                     <FlatList
-                        data={this.state.testFriendData}
+                        data={this.state.FriendData}
                         renderItem={({item}) => (
                             <FriendCard FriendName={item.FriendName}
                                         state={this.state}
@@ -94,6 +197,25 @@ class FriendsScreen extends Component {
                     <Image source={require('../assets/ThiccLiteBar-E-llergic.png')}
                            style={styles.titleBar}/>
 
+                    <View style={styles.InputContainer}>
+                        <View style={styles.InputView}>
+                            <TextInput ref={input => {
+                                this.NameEntry = input
+                            }}
+                                       placeholderTextColor={'lightgrey'}
+                                       placeholder="Add Friend Username"
+                                       onChangeText={(name) => this.setState({friendUsername: name})}
+                                       style={styles.textInputStyle}
+                            />
+                        </View>
+                        <TouchableOpacity onPress={() => {
+                            this.friendEntrySubmit()
+                        }}>
+                            <Image source={require('../assets/SubmitButton.png')}
+                                   style={styles.submitButtonStyle}/>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
 
             </ImageBackground>
@@ -101,8 +223,18 @@ class FriendsScreen extends Component {
     }
 }
 
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        reduxUpdateUser,
+    }, dispatch)
+);
 
-export default FriendsScreen;
+const mapStateToProps = (state) => {
+    const {user} = state;
+    return {user}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FriendsScreen);
 
 
 const styles = StyleSheet.create({
@@ -170,6 +302,31 @@ const styles = StyleSheet.create({
         fontSize: 25,
         marginTop: '7%',
         marginLeft: '7%'
+    },
 
+    //Add Friend
+    InputContainer: {
+        flexDirection: "row",
+        alignSelf: 'flex-start',
+        left: "3.2%"
+    },
+    InputView: {
+        width: '70%',
+        height: 35,
+        borderColor: 'lightgrey',
+        borderWidth: 3,
+        borderRadius: 10,
+        marginBottom: 15
+    },
+    textInputStyle: {
+        fontSize: 20,
+        width: '90%',
+        marginLeft: '4%',
+    },
+    submitButtonStyle: {
+        top: 5,
+        left: 20,
+        height: 25,
+        width: 60,
     },
 });

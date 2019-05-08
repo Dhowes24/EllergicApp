@@ -48,7 +48,7 @@ class WatchListCards extends Component {
         name: this.props.ListName,
         list: this.props.List,
         ellipseToggle: false,
-        checkToggle: this.props.Toggle
+        checkToggle: !this.props.Toggle
     };
 
     navigateTo(page){

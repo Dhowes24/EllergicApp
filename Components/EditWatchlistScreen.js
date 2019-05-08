@@ -57,7 +57,7 @@ class EditWatchListScreen extends Component {
     };
 
     componentDidMount() {
-        //alert(this.state.listItems)
+        alert(this.state.listItems)
     }
 
     allergyEntrySubmit = () => {
@@ -83,7 +83,7 @@ class EditWatchListScreen extends Component {
             }
             if (!this.props.list.Create) {
                 (async () => {
-                    const result = await client.mutate({
+                    await client.mutate({
                         mutation: gql(updateWatchList),
                         variables: {
                             input: {
@@ -135,57 +135,6 @@ class EditWatchListScreen extends Component {
 
 
     };
-
-    //TODO
-    // done() {
-    //     let listString;
-    //     for (let i = 0; i < list.length; i++) {
-    //         listString = listString + list[i];
-    //     }
-    //     if (this.state.id == null) {
-    //         (async () => {
-    //             const Watchlistresult = await client.query({
-    //                 mutation: gql(createWatchList),
-    //                 variables: {
-    //                     name: this.state.name,
-    //                     list: listString
-    //                 },
-    //                 fetchPolicy: 'network-only'
-    //             });
-    //             (async () => {
-    //                 let Userresult = await client.query({
-    //                     query: gql(getUser),
-    //                     variables: {
-    //                         username: this.state.Username
-    //                     },
-    //                     fetchPolicy: 'network-only'
-    //                 });
-    //                 (async () => {
-    //                     await client.query({
-    //                         query: gql(updateUser),
-    //                         variables: {
-    //                             username: this.state.Username,
-    //                             watchlist: Userresult.watchlist + Watchlistresult.id
-    //                         },
-    //                         fetchPolicy: 'network-only'
-    //                     });
-    //                 })();
-    //             })();
-    //         })();
-    //     } else {
-    //         (async () => {
-    //             await client.query({
-    //                 mutation: gql(updateWatchList),
-    //                 variables: {
-    //                     id: this.state.id,
-    //                     name: this.state.name,
-    //                     list: listString
-    //                 },
-    //                 fetchPolicy: 'network-only'
-    //             });
-    //         })();
-    //     }
-    // }
 
     renderFooter = () => {
         if (!this.state.loading) return null;
