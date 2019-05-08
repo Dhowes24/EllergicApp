@@ -30,6 +30,7 @@ import {getUser, getWatchList} from "../src/graphql/queries";
 import AWSAppSyncClient from "aws-appsync";
 import aws_config from "../aws-exports";
 import {updateUser} from "../src/graphql/mutations";
+import WatchListCards from "./WatchListScreen";
 
 
 const client = new AWSAppSyncClient({
@@ -181,7 +182,9 @@ class FriendsScreen extends Component {
                             <FriendCard FriendName={item.FriendName}
                                         state={this.state}
                                         setState={this.setState.bind(this)}
+                                        navigateTo={this.props.navigation.navigate.bind(this)}
                                         removeFunc={this.removeFriend}/> //Add other data when database layout is figured out
+
                         )}
                         keyExtractor={item => item.FriendName}
                         ListFooterComponent={this.renderFooter()}>

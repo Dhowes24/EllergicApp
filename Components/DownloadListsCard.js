@@ -19,6 +19,7 @@ class DownloadListsCard extends Component {
 
     state = {
         name: this.props.ListName,
+        list: this.props.List,
 
         ellipseToggle: false,
         downloadToggle: false
@@ -26,6 +27,15 @@ class DownloadListsCard extends Component {
 
     removeFriend(Name) {
         this.props.removeFunc(Name)
+    };
+
+    listItems(column){
+        let splitList = this.state.list.split(",");
+        let outputList=[];
+        for (let i = column; i<splitList.length;i+=3){
+            outputList.push(splitList[i] +"\n")
+        }
+        return outputList
     };
 
     render() {
@@ -69,7 +79,13 @@ class DownloadListsCard extends Component {
 
                 {this.state.ellipseToggle && <CardItem style={styles.CardStyle}>
                     <Text>
-                        Ingredients
+                        {this.listItems(0)}
+                    </Text>
+                    <Text>
+                        {this.listItems(1)}
+                    </Text>
+                    <Text>
+                        {this.listItems(2)}
                     </Text>
                 </CardItem>}
 

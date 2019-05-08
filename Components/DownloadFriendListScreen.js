@@ -11,6 +11,30 @@ import {
 } from "react-native";
 import DownloadListsCard from './DownloadListsCard';
 
+/**
+ * Redux Imports
+ */
+import {bindActionCreators} from "redux";
+import {editList} from "../actions/ListActions";
+import {connect} from "react-redux";
+
+/**
+ * GraphQL Imports
+ */
+import gql from "graphql-tag";
+import {getUser, getWatchList} from "../src/graphql/queries";
+import AWSAppSyncClient from "aws-appsync";
+import aws_config from "../aws-exports";
+
+const client = new AWSAppSyncClient({
+    url: aws_config.aws_appsync_graphqlEndpoint,
+    region: aws_config.aws_appsync_region,
+    auth: {
+        type: aws_config.aws_appsync_authenticationType,
+        apiKey: aws_config.aws_appsync_apiKey,
+    }
+});
+
 
 class DownloadFriendListScreen extends Component {
 
@@ -19,8 +43,38 @@ class DownloadFriendListScreen extends Component {
     };
 
     state = {
-        testListData: [{ListName: 'Emilys Family'}, {ListName: 'No Nutsense'}, {ListName: 'Vegan'}]
+        testListData: [{ListName: 'Emilys Family'}, {ListName: 'No Nutsense'}, {ListName: 'Vegan'}],
+
+        watchlistData:[]
     };
+
+    componentDidMount() {
+        for (let i = 0; i < this.props.list.listItems.length; i++) {
+            (async () => {
+                const result = await client.query({
+                    query: gql(getWatchList),
+                    variables: {
+                        id: this.props.list.listItems[i],
+
+                    },
+                    fetchPolicy: 'network-only'
+                });
+                if (result.data.getWatchList.id != null) {
+                    console.log(result.data.getWatchList);
+
+                    let localWatchlistData = this.state.watchlistData;
+
+                    let obj = {};
+                    obj["ListName"] = result.data.getWatchList.name;
+                    obj["List"] = result.data.getWatchList.list;
+                    localWatchlistData.push(obj);
+
+                    this.setState({watchlistData:localWatchlistData});
+                }
+            })();
+        }
+
+    }
 
     renderFooter = () => {
         if (!this.state.loading) return null;
@@ -52,21 +106,17 @@ class DownloadFriendListScreen extends Component {
                 <View style={styles.nameStyles}>
                     <Text style={styles.firstNameStyle}
                           marginTop={'5%'}>
-                        FirstName
-                    </Text>
-                </View>
-                <View style={styles.nameStyles}>
-                    <Text style={styles.lastNameStyle}>
-                        LastName
+                        {this.props.list.ID}
                     </Text>
                 </View>
                 {/* Body1 */}
 
                 <View style={styles.containerStyle}>
                     <FlatList
-                        data={this.state.testListData}
+                        data={this.state.watchlistData}
                         renderItem={({item}) => (
-                            <DownloadListsCard ListName={item.ListName}/> //Add other data when database layout is figured out
+                            <DownloadListsCard ListName={item.ListName}
+                            List={item.List}/>
                         )}
                         keyExtractor={item => item.ListName}
                         ListFooterComponent={this.renderFooter()}>
@@ -80,8 +130,18 @@ class DownloadFriendListScreen extends Component {
     }
 }
 
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        editList,
+    }, dispatch)
+);
 
-export default DownloadFriendListScreen;
+const mapStateToProps = (state) => {
+    const {list,user} = state;
+    return {list,user}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadFriendListScreen);
 
 
 const styles = StyleSheet.create({
