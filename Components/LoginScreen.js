@@ -8,7 +8,10 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
+    KeyboardAvoidingView
 } from "react-native";
+import { Header } from 'react-navigation';
+
 
 /**
  * graphql imports

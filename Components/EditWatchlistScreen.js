@@ -53,11 +53,21 @@ class EditWatchListScreen extends Component {
         newWatchlistID: "",
         ID: this.props.list.ID,
         name: this.props.list.ListName,
+        newName:null,
         listItems: this.props.list.listItems
     };
 
     componentDidMount() {
-        alert(this.state.listItems)
+        this.subs = [
+            this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
+        ];
+    }
+
+    componentDidFocus(){
+    }
+
+    componentWillUnmount() {
+        this.subs.forEach(sub => sub.remove());
     }
 
     allergyEntrySubmit = () => {
@@ -68,6 +78,7 @@ class EditWatchListScreen extends Component {
             stateList.push(obj);
             this.setState({listItems: stateList});
             this.AllergyEntry.clear();
+            this.componentDidMount();
         }
     };
 
@@ -101,7 +112,7 @@ class EditWatchListScreen extends Component {
                         mutation: gql(createWatchList),
                         variables: {
                             input: {
-                                name: this.state.name,
+                                name: this.state.newName,
                                 Toggle: false,
                                 list: listString
                             }
@@ -185,7 +196,7 @@ class EditWatchListScreen extends Component {
                         {this.state.name == null && <TextInput placeholderTextColor={'lightgrey'}
                                                                placeholder="Name your Watch List"
                                                                style={styles.textInputStyle}
-                                                               onChangeText={(name) => this.setState({name: name})}/>}
+                                                               onChangeText={(name) => this.setState({newName: name})}/>}
                     </View>
 
                     <View style={styles.allergyInputContainer}>
@@ -209,6 +220,7 @@ class EditWatchListScreen extends Component {
 
                     <FlatList
                         data={this.state.listItems}
+                        extraData={this.state}
                         renderItem={({item}) => (
                             <ListItemCard ListItem={item.ListItem}
                                           state={this.state}

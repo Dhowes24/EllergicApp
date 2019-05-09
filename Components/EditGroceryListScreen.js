@@ -76,6 +76,7 @@ class EditGroceryListScreen extends Component {
 
                     <FlatList
                         data={this.state.items}
+                        extraData={this.state}
                         renderItem={({item}) => (
                             <ListItemCard listItem={item.listItem}/>
                         )}

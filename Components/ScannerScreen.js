@@ -97,9 +97,9 @@ class ScannerScreen extends Component {
         }
     }
 
-    handleBarCodeScanned = () => {
+    handleBarCodeScanned = ({type,data}) => {
         //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-        fetch("https://api.nutritionix.com/v1_1/item?upc=52200004265&appId=" + appID + "&appKey=" + applicationKey)
+        fetch("https://api.nutritionix.com/v1_1/item?upc="+data+"&appId=" + appID + "&appKey=" + applicationKey)
             .then((response) => response.json())
             .then((responseJson) => {
                 //alert(responseJson.nf_ingredient_statement);
@@ -115,13 +115,15 @@ class ScannerScreen extends Component {
         let allerginsFound =[];
         ingredientList = data.split(',');
         let allerginsList = this.props.allergins.allergins;
-        console.log(ingredientList);
-        console.log(allerginsList);
         for (let i = 0; i < ingredientList.length; i++) {
             for (let a = 0; a < allerginsList.length; a++) {
                 if (ingredientList[i].includes(allerginsList[a])) {
+                    if(warning){
+                    allerginsFound.push(", "+allerginsList[a]);}
+                    else{
+                        allerginsFound.push(allerginsList[a]);
+                    }
                     warning =true;
-                    allerginsFound.push(allerginsList[a])
                 }
             }
         }
@@ -229,14 +231,6 @@ class ScannerScreen extends Component {
                     />}
                 </View>
 
-                <TouchableOpacity
-                    onPress={() => {
-                        this.handleBarCodeScanned()
-                    }}>
-                    <Image source={require('../assets/MainPageLogo-E-llergic.png')} //Home Logo
-                           style={styles.LogoStyle}/>
-                </TouchableOpacity>
-
             </ImageBackground>
         )
     }
@@ -307,7 +301,7 @@ const styles = StyleSheet.create({
 
     //Positive Modal Style
     positiveModal: {
-        top: 250,
+        top: 200,
         alignItems: 'center',
         alignSelf: 'center',
         width: 300,
@@ -347,7 +341,7 @@ const styles = StyleSheet.create({
 
     //negative Modal Style
     negativeModal: {
-        top: 250,
+        top: 200,
         alignItems: 'center',
         alignSelf: 'center',
         width: 300,

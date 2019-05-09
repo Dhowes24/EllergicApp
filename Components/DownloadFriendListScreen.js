@@ -114,6 +114,7 @@ class DownloadFriendListScreen extends Component {
                 <View style={styles.containerStyle}>
                     <FlatList
                         data={this.state.watchlistData}
+                        extraData={this.state}
                         renderItem={({item}) => (
                             <DownloadListsCard ListName={item.ListName}
                             List={item.List}/>

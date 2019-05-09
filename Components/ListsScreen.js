@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '17%',
         height: '100%',
-        marginRight: '-3%'
+        //marginRight: '-3%'
     },
 
     //BodyStyles

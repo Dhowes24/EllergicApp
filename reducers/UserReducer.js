@@ -31,7 +31,6 @@ const userReducer = (state = USER_STATE, action) => {
         case 'ADD_WATCHLIST':
 
             const newWatchlist = action.payload.watchlists;
-            alert(newWatchlist);
 
             watchlists.push(newWatchlist);
 

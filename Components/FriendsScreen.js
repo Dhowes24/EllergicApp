@@ -63,6 +63,12 @@ class FriendsScreen extends Component {
     };
 
     componentDidMount() {
+        this.subs = [
+            this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
+        ];
+    }
+
+    componentDidFocus() {
         let localFriendData = this.state.FriendData;
         console.log(this.props.user);
         for (let i = 0; i < this.props.user.friendslist.length; i++) {
@@ -84,6 +90,10 @@ class FriendsScreen extends Component {
                 console.log(this.state.FriendData)
             })();
         }
+    }
+
+    componentWillUnmount() {
+        this.subs.forEach(sub => sub.remove());
     }
 
     friendEntrySubmit = () => {
@@ -127,6 +137,7 @@ class FriendsScreen extends Component {
             }
         })();
         this.NameEntry.clear();
+        this.render();
 
     };
 
@@ -138,7 +149,6 @@ class FriendsScreen extends Component {
 
         let removed = arrCopy.splice(index, 1);
         this.setState({testFriendData: arrCopy});
-        alert(index)
     }
 
     render() {
@@ -178,6 +188,7 @@ class FriendsScreen extends Component {
                            style={styles.titleBar}/>
                     <FlatList
                         data={this.state.FriendData}
+                        extraData={this.state}
                         renderItem={({item}) => (
                             <FriendCard FriendName={item.FriendName}
                                         state={this.state}
@@ -260,11 +271,10 @@ const styles = StyleSheet.create({
         marginTop: '-10%'
     },
     LogoStyle: {
-        marginTop: '7%',
+        marginTop: '8%',
         justifyContent: 'center',
-        width: 93,
-        height: 60,
-        flex: 0
+        width: 83,
+        height: 55,
     },
 
     //BodyStyles

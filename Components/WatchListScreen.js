@@ -59,8 +59,14 @@ class WatchListScreen extends Component {
         )
     };
 
+    componentDidMount() {
+        this.subs = [
+            this.props.navigation.addListener('didFocus', (payload) => this.componentDidFocus(payload)),
+        ];
+    }
 
-    componentDidMount(){
+    componentDidFocus(){
+
         let watchlistData = [];
         if(this.props.user.watchlists!=null) {
             for (let i = 0; i < this.props.user.watchlists.length; i++) {
@@ -88,11 +94,13 @@ class WatchListScreen extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.subs.forEach(sub => sub.remove());
+    }
 
     createButtonPressed = () =>{
             this.props.editList({ListName:null ,List:[], ID:"", Create:true});
             this.props.navigation.navigate('EditWatchListScreen');
-
     };
 
     render() {
@@ -116,10 +124,10 @@ class WatchListScreen extends Component {
                 </View>
 
                 {/* Body1 */}
-
                 <View style={styles.containerStyle}>
                     <FlatList
                         data={this.state.realData}
+                        extraData={this.state}
                         renderItem={({item}) => (
                             <WatchListCards ListName={item.ListName}
                                             List= {item.List}
@@ -140,13 +148,12 @@ class WatchListScreen extends Component {
                                       onPress={()=>{
                                           this.createButtonPressed()}}>
                         <Text style={styles.ButtonTextStyle}>
-                            Create Watchlist
+                            Create  Watchlist
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.bottomButtonStyle}
                                       onPress={()=>{
-                                          alert(this.state.realData.length)
-                                          //this.props.navigation.navigate('FriendsScreen')
+                                          this.props.navigation.navigate('FriendsScreen')
                                       }}>
                         <Text style={styles.ButtonTextStyle}>
                             Download Friends Watchlist

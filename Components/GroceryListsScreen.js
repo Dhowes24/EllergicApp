@@ -67,6 +67,7 @@ class GroceryListsScreen extends Component {
                 <View style={styles.containerStyle}>
                     <FlatList
                         data={this.state.testListData}
+                        extraData={this.state}
                         renderItem={({item}) => (
                             <GroceryListCards ListName={item.ListName}
                                               state={this.state}
