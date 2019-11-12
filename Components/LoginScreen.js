@@ -145,7 +145,12 @@ class LoginScreen extends React.Component {
 
                 {/*Sign In*/}
 
-                {this.state.Login && <View style={styles.contentLogin}>
+                {this.state.Login && <View
+                    style={styles.contentLogin}>
+                    <KeyboardAvoidingView
+                        keyboardVerticalOffset = {Header.HEIGHT + 20}
+                    style={{flex:1}}
+                    behavior="padding">
                     <TextInput placeholderTextColor={'darkgrey'}
                                placeholder="Username/Email"
                                onChangeText={(Username) => this.setState({Username: Username})}
@@ -176,7 +181,7 @@ class LoginScreen extends React.Component {
                             </Text>
                         </View>
                     </TouchableOpacity>
-
+                    </KeyboardAvoidingView>
                 </View>}
 
                 {/*Sign Up*/}
@@ -231,7 +236,6 @@ class LoginScreen extends React.Component {
                 </View>
 
             </ImageBackground>)
-
     }
 
 }
@@ -279,7 +283,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        borderWidth: 2
+        borderWidth: 2,
     },
     contentSignUp: {
         alignSelf: 'center',
@@ -292,7 +296,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        borderWidth: 2
+        borderWidth: 2,
     },
     textInputStyle: {
         fontSize: 26,

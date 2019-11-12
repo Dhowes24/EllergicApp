@@ -66,9 +66,9 @@ class WatchListScreen extends Component {
     }
 
     componentDidFocus(){
-
         let watchlistData = [];
         if(this.props.user.watchlists!=null) {
+            console.log(this.props.user.watchlists);
             for (let i = 0; i < this.props.user.watchlists.length; i++) {
                 (async () => {
                     const result = await client.query({
